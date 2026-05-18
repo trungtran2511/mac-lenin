@@ -41,10 +41,7 @@ const TuviPage = () => {
   useEffect(() => {
     geminiServiceRef.current = createGeminiService(GEMINI_API_KEY);
 
-    // Kiểm tra status
-    const status = geminiServiceRef.current.getApiKeyStatus();
-    console.log("API Key Status:", status);
-  }, []);
+  }, [GEMINI_API_KEY]);
 
   // Khởi tạo Vanta.js effect
   useEffect(() => {
@@ -247,15 +244,45 @@ Lưu ý:
 - Format rõ ràng với heading và paragraph`;
   };
 
+  const createLocalLuanGiai = () => {
+    const tb = laSo.thienBan;
+    const allCung = Object.values(laSo.thapNhiCung);
+    const findCung = (name) => allCung.find((cung) => cung?.cungTen === name);
+    const topStars = (cung) =>
+      cung?.cungSao
+        ?.filter((sao) => sao.saoLoai === 1)
+        .map((sao) => sao.saoTen)
+        .slice(0, 4)
+        .join(", ") || "không có chính tinh nổi bật";
+
+    return `## 1. TỔNG QUAN VỀ SỐ MỆNH
+Lá số của ${tb.ten || "người xem"} có bản mệnh ${tb.banMenh || "chưa xác định"}, cục ${tb.tenCuc || "chưa xác định"}, mệnh chủ ${tb.menhChu || "chưa rõ"} và thân chủ ${tb.thanChu || "chưa rõ"}. Đây là bản luận giải cục bộ được tạo từ dữ liệu lá số trong ứng dụng vì Gemini API key chưa được cấu hình.
+
+## 2. TÍNH CÁCH VÀ VẬN MỆNH
+Cung Mệnh có các sao chính: ${topStars(findCung("Mệnh"))}. Người xem nên hiểu phần này như một gợi ý tham khảo: điểm mạnh nằm ở cách nhìn nhận bản thân, khả năng tự điều chỉnh và thái độ trước hoàn cảnh.
+
+## 3. SỰ NGHIỆP VÀ TÀI LỘC
+Cung Quan Lộc có: ${topStars(findCung("Quan Lộc"))}. Cung Tài Bạch có: ${topStars(findCung("Tài Bạch"))}. Khi xem sự nghiệp, nên kết hợp giữa định hướng cá nhân, môi trường học tập/làm việc và khả năng tích lũy từng giai đoạn.
+
+## 4. TÌNH DUYÊN VÀ GIA ĐẠO
+Các cung tình cảm trong lá số nên được đọc theo hướng cân bằng: tôn trọng giao tiếp, giữ sự ổn định cảm xúc và tránh quyết định vội khi gặp mâu thuẫn.
+
+## 5. SỨC KHỎE
+Phần sức khỏe chỉ nên xem như nhắc nhở sinh hoạt: ngủ đủ, vận động đều, giữ lịch học/làm việc hợp lý và đi khám chuyên môn khi có dấu hiệu bất thường.
+
+## 6. LỜI KHUYÊN VÀ HƯỚNG ĐI
+Lá số là công cụ tham khảo, không thay thế lựa chọn cá nhân. Muốn có bản luận giải AI dài và sâu hơn, hãy thêm VITE_GEMINI_API_KEY vào file .env rồi chạy lại dev server.`;
+  };
+
   const generateLuanGiai = async () => {
     if (!laSo) {
-      console.log("❌ Lá số chưa được lập");
       return;
     }
 
-    if (!geminiServiceRef.current) {
-      console.error("❌ Gemini service chưa được khởi tạo");
-      setError("Service chưa sẵn sàng. Vui lòng refresh trang.");
+    const apiStatus = geminiServiceRef.current?.getApiKeyStatus();
+    if (!geminiServiceRef.current || !apiStatus?.isValid) {
+      setLuanGiai(createLocalLuanGiai());
+      setError(null);
       return;
     }
 
@@ -265,12 +292,8 @@ Lưu ý:
     try {
       const prompt = createPrompt();
 
-      console.log("Đang gửi request tới Gemini API...");
-      console.log("Service ref:", geminiServiceRef.current);
-
       const response = await geminiServiceRef.current.generateResponse(prompt);
 
-      console.log("✅ Nhận được phản hồi từ AI");
       setLuanGiai(response);
     } catch (err) {
       console.error("❌ Lỗi:", err);
@@ -457,7 +480,7 @@ Lưu ý:
         <div className="container-2">
           <Link to="/">
             <button className="back-home">
-              <span className="text">Back Home</span>
+              <span className="text">Quay trở lại </span>
             </button>
           </Link>
           <h1 className="wordmark">Mời bạn Lập lá số tử vi</h1>
@@ -761,75 +784,26 @@ Lưu ý:
             </div>
           </div>
           {/* PHẦN MỚI: Luận giải tự động */}
-          <div className="shadow-lg rounded-4 mt-4">
-            <div
-              className="text-white p-4"
-              style={{
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                border: "none",
-                borderRadius: "25px",
-                padding: "12px 40px",
-                fontSize: "1.1rem",
-                fontWeight: "600",
-                boxShadow: `
-            0 0 10px rgba(255, 255, 255, 0.6),
-            0 0 25px rgba(120, 150, 255, 0.8),
-            0 0 50px rgb(120, 150, 255),
-            0 0 80px rgb(120, 150, 255)
-          `,
-                color: "#fff",
-                textShadow: "0 0 10px rgba(255, 255, 255, 0.8)",
-                marginTop: "60px",
-              }}
-            >
-              <h3 className="mb-0">
-                <i class="bi bi-arrow-through-heart-fill"></i> Luận giải tự động
-                bởi Chuyên gia
-              </h3>
+          <div className="tuvi-reading-panel mt-4">
+            <div className="tuvi-reading-header">
+              <div>
+                <p className="tuvi-reading-kicker">Luận giải tự động</p>
+                <h3>
+                  <i className="bi bi-arrow-through-heart-fill"></i>
+                  Chuyên gia phân tích lá số
+                </h3>
+              </div>
             </div>
-            <div
-              className="p-4"
-              style={{
-                background: "transparent",
-              }}
-            >
+            <div className="tuvi-reading-body">
               {!luanGiai && !isAnalyzing && (
-                <div className="text-center py-4">
-                  <p
-                    className="mb-3"
-                    style={{
-                      color: "#fff",
-                      textShadow: `
-          0 0 10px rgba(255, 255, 255, 0.6),
-          0 0 25px rgba(120, 150, 255, 0.8),
-          0 0 50px rgb(120, 150, 255),
-          0 0 80px rgb(120, 150, 255)
-        `,
-                    }}
-                  >
-                    Nhấn nút bên dưới để các Chuyên gia phía chúng tôi phân tích
-                    và luận giải lá số của bạn
+                <div className="tuvi-reading-empty">
+                  <p>
+                    Nhấn nút bên dưới để hệ thống phân tích và luận giải lá số
+                    của bạn theo từng nhóm nội dung.
                   </p>
                   <button
-                    className="btn btn-lg btn-primary px-5"
+                    className="tuvi-reading-btn"
                     onClick={generateLuanGiai}
-                    style={{
-                      background:
-                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                      border: "none",
-                      borderRadius: "25px",
-                      padding: "12px 40px",
-                      fontSize: "1.1rem",
-                      fontWeight: "600",
-                      boxShadow: `
-            0 0 10px rgba(255, 255, 255, 0.6),
-            0 0 25px rgba(120, 150, 255, 0.8),
-            0 0 50px rgb(120, 150, 255),
-            0 0 80px rgb(120, 150, 255)
-          `,
-                      color: "#fff",
-                      textShadow: "0 0 10px rgba(255, 255, 255, 0.8)",
-                    }}
                   >
                     <i className="bi bi-asterisk me-2"></i> Tạo luận giải
                   </button>
@@ -837,28 +811,14 @@ Lưu ý:
               )}
 
               {isAnalyzing && (
-                <div className="text-center py-5">
+                <div className="tuvi-reading-loading">
                   <div
-                    className="spinner-border mb-3"
+                    className="spinner-border"
                     role="status"
-                    style={{
-                      width: "3rem",
-                      height: "3rem",
-                      color: "#fff",
-                      filter: `drop-shadow(0 0 10px rgba(120, 150, 255, 0.8))`,
-                    }}
                   >
                     <span className="visually-hidden">Đang phân tích...</span>
                   </div>
-                  <p
-                    style={{
-                      color: "#fff",
-                      textShadow: `
-          0 0 10px rgba(255, 255, 255, 0.6),
-          0 0 25px rgba(120, 150, 255, 0.8)
-        `,
-                    }}
-                  >
+                  <p>
                     <i className="bi bi-sparkles me-2"></i>
                     AI đang phân tích lá số của bạn, vui lòng chờ...
                   </p>
@@ -867,14 +827,8 @@ Lưu ý:
 
               {error && (
                 <div
-                  className="alert alert-danger"
+                  className="tuvi-reading-error"
                   role="alert"
-                  style={{
-                    background: "rgba(220, 53, 69, 0.1)",
-                    border: "1px solid rgba(220, 53, 69, 0.5)",
-                    color: "#fff",
-                    textShadow: "0 0 5px rgba(220, 53, 69, 0.8)",
-                  }}
                 >
                   <i className="bi bi-exclamation-triangle me-2"></i>
                   {error}
@@ -882,32 +836,14 @@ Lưu ý:
               )}
 
               {luanGiai && (
-                <div
-                  className="luan-giai-content"
-                  style={{
-                    lineHeight: "1.8",
-                    fontSize: "1.05rem",
-                    color: "#fff",
-                  }}
-                >
+                <div className="luan-giai-content">
                   {luanGiai.split("\n").map((para, i) => {
                     // Xử lý heading (## )
                     if (para.startsWith("## ")) {
                       return (
                         <h4
                           key={i}
-                          className="mt-4 mb-3"
-                          style={{
-                            borderBottom: "2px solid rgba(120, 150, 255, 0.6)",
-                            paddingBottom: "8px",
-                            fontWeight: "700",
-                            color: "#fff",
-                            textShadow: `
-                              0 0 10px rgba(255, 255, 255, 0.6),
-                              0 0 25px rgba(120, 150, 255, 0.8),
-                              0 0 50px rgb(120, 150, 255)
-                            `,
-                          }}
+                          className="tuvi-reading-section-title"
                         >
                           {para.replace("## ", "")}
                         </h4>
@@ -918,16 +854,7 @@ Lưu ý:
                       return (
                         <p
                           key={i}
-                          className="mb-3"
-                          style={{
-                            textAlign: "justify",
-                            color: "rgba(255, 255, 255, 0.9)",
-                            textShadow: `
-                              0 0 10px rgba(255, 255, 255, 0.6),
-                              0 0 25px rgba(120, 150, 255, 0.8),
-                              0 0 50px rgb(120, 150, 255)
-                            `,
-                          }}
+                          className="tuvi-reading-paragraph"
                         >
                           {para}
                         </p>
@@ -936,21 +863,8 @@ Lưu ý:
                     return null;
                   })}
 
-                  <div
-                    className="mt-4 p-3 rounded"
-                    style={{
-                      background: "rgba(120, 150, 255, 0.1)",
-                      border: "1px solid rgba(120, 150, 255, 0.3)",
-                      boxShadow: "0 0 20px rgba(120, 150, 255, 0.2)",
-                    }}
-                  >
-                    <p
-                      className="mb-0 small"
-                      style={{
-                        color: "rgba(255, 255, 255, 0.8)",
-                        textShadow: "0 0 5px rgba(255, 255, 255, 0.3)",
-                      }}
-                    >
+                  <div className="tuvi-reading-note">
+                    <p>
                       <i className="bi bi-music-note me-2"></i>
                       <strong>Lưu ý:</strong> Luận giải này được tạo tự động bởi
                       AI dựa trên lá số tử vi. Kết quả chỉ mang tính tham khảo,

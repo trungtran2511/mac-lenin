@@ -498,13 +498,11 @@ export function ngayThangNamCanChi(
   duongLich = true,
   timeZone = 7,
 ) {
-  let day = nn,
-    month = tt,
+  let month = tt,
     year = nnnn;
 
   if (duongLich === true) {
     const lunar = ngayThangNam(nn, tt, nnnn, timeZone);
-    day = lunar[0];
     month = lunar[1];
     year = lunar[2];
   }
@@ -654,7 +652,7 @@ export function nguHanhNapAm(diaChi, thienCan, xuatBanMenh = false) {
         return nh[0];
       }
     }
-  } catch (e) {
+  } catch {
     throw new Error("Không thể tính Ngũ hành nạp âm");
   }
 }

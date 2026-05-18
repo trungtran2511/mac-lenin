@@ -15,7 +15,10 @@ function HomePage() {
   useParallax();
 
   return (
-    <div className="page-outer position-relative d-flex flex-column" id="page">
+    <div
+      className="page-outer group2-home position-relative d-flex flex-column"
+      id="page"
+    >
       <Header />
       <div className="pagelayout d-flex flex-row">
         <div className="pagelayout-b d-flex flex-column">

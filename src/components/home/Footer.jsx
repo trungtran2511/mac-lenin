@@ -50,7 +50,7 @@ const Footer = () => {
                           className="heading heading-none upper0 fwglobal lhglobal pbtsize-1"
                         >
                           <span className="headingtext fwglobal nline0">
-                            TAHA - Triết học và Đời sống
+                            Group2-AI1901 - Triết học và Đời sống
                           </span>
                         </h4>
 
@@ -141,7 +141,7 @@ const Footer = () => {
                           className="heading heading-none upper0 fwglobal lhglobal pbtsize-1"
                         >
                           <span className="headingtext fwglobal nline0">
-                            Hãy đặt câu hỏi cho đội ngũ TAHA - Nhóm 6 - KS1872
+                            Hãy đặt câu hỏi cho đội ngũ Group2-AI1901
                             nhé!
                           </span>
                         </h4>
@@ -167,7 +167,7 @@ const Footer = () => {
                                   <i className="bi bi-envelope-at"></i>
                                 </span>
                                 <span className="list-text">
-                                  hantt21112004@gmail.com
+                                  tranduytrung251105@gmail.com
                                 </span>
                               </div>
                             </li>
@@ -180,7 +180,7 @@ const Footer = () => {
                                   <i className="bi bi-telephone"></i>
                                 </span>
                                 <span className="list-text">
-                                  +84 862 990 923
+                                  0822777349
                                 </span>
                               </div>
                             </li>
@@ -204,7 +204,7 @@ const Footer = () => {
                           className="heading heading-none upper0 fwglobal lhglobal pbtsize-1"
                         >
                           <span className="headingtext fwglobal nline0">
-                            Tham gia cùng TAHA nhé!
+                            Tham gia cùng Group2-AI1901 nhé!
                           </span>
                         </h4>
 
@@ -227,7 +227,7 @@ const Footer = () => {
                                 name: "Facebook",
                                 icon: "facebook",
                                 class: "bi bi-facebook",
-                                link: "https://www.facebook.com/nguyen.thi.thu.ha.315521",
+                                link: "https://www.facebook.com/trung.tran.678726?mibextid=wwXIfr",
                               },
                             ].map((social, idx) => (
                               <li key={idx} className={`li-${social.icon}`}>
@@ -290,7 +290,7 @@ const Footer = () => {
                         >
                           <span className="before">© 2026</span>
                           <span className="after">
-                            TAHA - Triết học và đời sống. All rights reserved.
+                            Group2-AI1901 - Triết học và đời sống. All rights reserved.
                           </span>
                         </div>
                       </div>

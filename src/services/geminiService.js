@@ -8,20 +8,15 @@ export class GeminiService {
     if (this.apiKey && this.apiKey !== "your_gemini_api_key_here") {
       try {
         this.genAI = new GoogleGenAI({ apiKey: this.apiKey });
-        console.log("✅ Gemini Service initialized successfully");
       } catch (error) {
-        console.error("❌ Error initializing Gemini service:", error);
+        console.error("Error initializing Gemini service:", error);
       }
     } else {
-      console.warn("⚠️ API key not provided or invalid");
+      console.warn("API key not provided or invalid");
     }
   }
 
   async generateResponse(prompt) {
-    console.log("Generate response called");
-    console.log("API key status:", this.apiKey ? "Present" : "Missing");
-    console.log("GenAI instance:", this.genAI ? "Present" : "Missing");
-
     if (
       !this.genAI ||
       !this.apiKey ||
@@ -31,14 +26,10 @@ export class GeminiService {
     }
 
     try {
-      console.log("Calling Gemini API...");
-
       const response = await this.genAI.models.generateContent({
-        model: "gemini-2.5-flash-lite", // ⭐ Giữ nguyên model này
+        model: "gemini-2.5-flash-lite",
         contents: prompt,
       });
-
-      console.log("API Response:", response);
 
       if (!response.text) {
         throw new Error("Không nhận được phản hồi từ Gemini API");

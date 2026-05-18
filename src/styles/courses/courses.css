@@ -110,3 +110,183 @@
 .triet-hoc-wrapper .question-item:hover {
   transform: translateX(5px);
 }
+
+/* Group2-AI1901 course interface refresh */
+.triet-hoc-wrapper {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(242, 180, 65, 0.24), transparent 30%),
+    radial-gradient(circle at 88% 18%, rgba(0, 125, 132, 0.2), transparent 32%),
+    linear-gradient(135deg, #f7f8f3 0%, #e9f3ef 52%, #f5eee3 100%);
+  color: #172026;
+}
+
+.triet-hoc-wrapper > .position-relative:first-child {
+  display: grid;
+  min-height: 210px;
+  align-items: end;
+  overflow: hidden;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(120deg, rgba(12, 31, 36, 0.94), rgba(0, 125, 132, 0.82)),
+    url("https://commons.wikimedia.org/wiki/Special:FilePath/The%20School%20of%20Athens%20by%20Raffaello%20Sanzio%20da%20Urbino.jpg?width=1280")
+      center/cover;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+.triet-hoc-wrapper > .position-relative:first-child h1,
+.triet-hoc-wrapper > .position-relative:first-child p {
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #fff !important;
+}
+
+.triet-hoc-wrapper > .position-relative:first-child h1 {
+  font-size: clamp(2rem, 4vw, 4.2rem);
+}
+
+.triet-hoc-wrapper > .bg-white,
+.triet-hoc-wrapper .col-lg-7 > .bg-white,
+.triet-hoc-wrapper .quote-box,
+.triet-hoc-wrapper .mindmap-box {
+  border: 1px solid rgba(23, 32, 38, 0.12);
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  box-shadow: 0 18px 45px rgba(23, 32, 38, 0.1) !important;
+  backdrop-filter: blur(12px);
+}
+
+.triet-hoc-wrapper .row.g-4 {
+  align-items: start;
+}
+
+.triet-hoc-wrapper .col-lg-7 {
+  width: 62%;
+}
+
+.triet-hoc-wrapper .col-lg-5 {
+  width: 38%;
+  position: sticky;
+  top: 20px;
+}
+
+.triet-hoc-wrapper .question-item {
+  border: 1px solid rgba(23, 32, 38, 0.1);
+  border-left: 0;
+  border-radius: 14px !important;
+  background: #fff !important;
+}
+
+.triet-hoc-wrapper .question-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 28px rgba(0, 125, 132, 0.12);
+}
+
+.triet-hoc-wrapper .badge {
+  background: #007d84 !important;
+  border-radius: 10px !important;
+}
+
+.triet-hoc-wrapper .form-select {
+  border-radius: 14px;
+  border: 1px solid rgba(0, 125, 132, 0.34) !important;
+  box-shadow: none;
+}
+
+.triet-hoc-wrapper .back-home-btn {
+  border-radius: 14px;
+  background: #f2b441;
+  color: #172026;
+  box-shadow: 0 12px 24px rgba(242, 180, 65, 0.24);
+}
+
+.triet-hoc-wrapper .back-home-btn:hover {
+  background: #f2b441;
+  color: #172026;
+}
+
+.download-textbook-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  margin: 1rem auto 0;
+  border-radius: 14px;
+  background: #007d84;
+  color: #fff;
+  padding: 0.8rem 1.1rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 14px 30px rgba(0, 125, 132, 0.22);
+  transition: all 0.2s ease;
+}
+
+.download-textbook-btn:hover {
+  background: #172026;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.triet-hoc-wrapper .question-item small {
+  display: block;
+  line-height: 1.5;
+}
+
+.triet-hoc-wrapper .topic-section-card h6 {
+  font-size: 1.03rem;
+  line-height: 1.45;
+}
+
+.triet-hoc-wrapper .topic-section-body {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.triet-hoc-wrapper .topic-section-body p {
+  margin: 0;
+  line-height: 1.72;
+}
+
+.triet-hoc-wrapper .quote-box p {
+  color: #172026;
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.triet-hoc-wrapper .quote-source {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(23, 32, 38, 0.1);
+  color: rgba(23, 32, 38, 0.72);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.triet-hoc-wrapper .quote-source strong {
+  color: #007d84;
+}
+
+.triet-hoc-wrapper .quote-source a {
+  color: #4f4a8f;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.triet-hoc-wrapper .quote-source a:hover {
+  color: #172026;
+}
+
+@media (max-width: 991px) {
+  .triet-hoc-wrapper .col-lg-7,
+  .triet-hoc-wrapper .col-lg-5 {
+    width: 100%;
+  }
+
+  .triet-hoc-wrapper .col-lg-5 {
+    position: static;
+  }
+}

@@ -34,7 +34,7 @@ export class Sao {
       B: "binhHoa",
       H: "hamDia",
     };
-    this.saoDacTinh = dacTinh;
+    this.saoDacTinh = dt[dacTinh] || dacTinh;
     return this;
   }
 

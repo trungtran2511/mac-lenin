@@ -7,7 +7,6 @@ import {
   ngayThangNam,
   ngayThangNamCanChi,
   nguHanh,
-  nguHanhNapAm,
   thienCan,
   timCoThan,
   timCuc,
@@ -149,19 +148,17 @@ export function lapDiaBan(
   // Chuyển đổi sang âm lịch nếu cần
   let ngayAm = nn,
     thangAm = tt,
-    namAm = nnnn,
-    thangNhuan = 0;
+    namAm = nnnn;
 
   if (duongLich === true) {
     const lunarDate = ngayThangNam(nn, tt, nnnn, duongLich, timeZone);
     ngayAm = lunarDate[0];
     thangAm = lunarDate[1];
     namAm = lunarDate[2];
-    thangNhuan = lunarDate[3];
   }
 
   // Tính Can Chi
-  const [canThang, canNam, chiNam] = ngayThangNamCanChi(
+  const [, canNam, chiNam] = ngayThangNamCanChi(
     ngayAm,
     thangAm,
     namAm,

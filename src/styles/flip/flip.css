@@ -98,13 +98,13 @@
   font-weight: normal;
   font-style: normal;
 
-  src: url ("../../assets/fonts/flip/general_foundicons.eot");
+  src: url("../../assets/fonts/flip/general_foundicons.eot");
   src:
     url("../../assets/fonts/flip/general_foundiconsd41d.eot?#iefix")
       format("embedded-opentype"),
     url("../../assets/fonts/flip/general_foundicons.woff") format("woff"),
     url("../../assets/fonts/flip/general_foundicons.ttf") format("truetype"),
-    url(".../../assets/fonts/flip/general_foundicons.svg#GeneralFoundicons")
+    url("../../assets/fonts/flip/general_foundicons.svg#GeneralFoundicons")
       format("svg");
 }
 
@@ -318,7 +318,7 @@
 }
 
 .flip-game-container .game-logo .content-box .padded h2 {
-  color: white;
+  color: #172026;
 }
 
 .flip-game-container .game-logo .content-box h2 {
@@ -337,7 +337,18 @@
   margin-right: 10px;
   vertical-align: top;
   font: italic normal 9px/8px "Lexend";
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(23, 32, 38, 0.55);
+}
+
+.flip-game-container .stats-container h2,
+.flip-game-container .stats-container h2 span,
+.flip-game-container .stats-container h2 b {
+  color: #172026;
+}
+
+.flip-game-container .stats-container li,
+.flip-game-container .stats-container li span {
+  color: #172026;
 }
 
 .flip-game-container .stats-container ul {
@@ -373,7 +384,7 @@
   font-size: 11px;
   line-height: 16px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.92);
   padding: 0 25px;
 }
 
@@ -611,15 +622,19 @@
 .flip-game-container .game-front.card-c3::after,
 .flip-game-container .game-front.card-c1::after,
 .flip-game-container .game-front.card-c4::after {
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 800;
   position: absolute;
   bottom: 10px;
   right: 10px;
   height: auto;
   line-height: normal;
-  opacity: 0.4;
+  color: #172026;
+  opacity: 0.88;
   left: 10px;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .flip-game-container .game-front.card-c1::after {
@@ -637,8 +652,8 @@
 .flip-game-container .footer-wrapper {
   text-align: center;
   line-height: normal;
-  opacity: 0.5;
-  color: #fff;
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.88);
   font-size: 12px;
   padding: 15px 15px 15px;
 }
@@ -963,4 +978,987 @@
 .flip-game-container .arrow-icon {
   background-image: none;
   padding-left: 0;
+}
+
+/* Group2-AI1901 flip game refresh */
+.flip-game-container {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(242, 180, 65, 0.2), transparent 26%),
+    radial-gradient(circle at 82% 10%, rgba(0, 125, 132, 0.24), transparent 30%),
+    #11191b;
+}
+
+.flip-game-container .common-header {
+  padding: 24px;
+}
+
+.flip-game-container .game-name h1 {
+  background: transparent;
+  color: #ffffff;
+  font-size: clamp(3rem, 9vw, 8rem);
+  letter-spacing: 0;
+  text-shadow: 0 12px 34px rgba(0, 0, 0, 0.42);
+}
+
+.flip-game-container .game-name h1::before {
+  background: linear-gradient(90deg, #f2b441, #f7f8f3, #00a3a5);
+  -webkit-background-clip: text;
+}
+
+.flip-game-container .game-box-outer {
+  border-radius: 32px;
+  background:
+    linear-gradient(rgba(247, 248, 243, 0.08), rgba(247, 248, 243, 0.02)),
+    rgba(255, 255, 255, 0.05);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 28px 80px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(14px);
+}
+
+.flip-game-container .game-logo .game-card {
+  border-radius: 18px;
+}
+
+.flip-game-container .game-logo .game-front,
+.flip-game-container .game-area .game-front {
+  border-radius: 18px;
+  background: #f2b441;
+  color: #11191b;
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.08);
+}
+
+.flip-game-container .game-logo .game-back,
+.flip-game-container .game-area .game-back {
+  border-radius: 18px;
+  background-color: #f7f8f3;
+}
+
+.flip-game-container .content-box,
+.flip-game-container .levels {
+  border-radius: 18px;
+  background: #f7f8f3 !important;
+  color: #172026 !important;
+}
+
+.flip-game-container .game-logo .content-box h2,
+.flip-game-container .game-logo .content-box p,
+.flip-game-container .game-logo .content-box a,
+.flip-game-container .game-logo .instructions .padded,
+.flip-game-container .game-logo .stats-container .padded {
+  color: #172026 !important;
+}
+
+.flip-game-container .stats-container li b {
+  color: #172026;
+}
+
+.flip-game-container .levels a {
+  color: #172026;
+}
+
+.flip-game-container .levels a:hover {
+  background: #007d84;
+  color: #fff;
+}
+
+.flip-game-container .game-area {
+  width: min(92vmin, 760px);
+  height: min(92vmin, 760px);
+  top: 50%;
+  left: 50%;
+  overflow: visible;
+  transform: translate(-50%, -50%);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.26);
+}
+
+.flip-game-container .game-area .game-card {
+  padding: 6px;
+}
+
+.flip-game-container .game-timer {
+  height: 8px;
+  border-radius: 999px;
+  background: #f2b441;
+}
+
+.flip-game-container .back-home-btn {
+  border-radius: 14px;
+  background: #f2b441;
+  color: #172026;
+}
+
+.flip-game-container .footer-wrapper {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.flip-game-container .quit-game-btn {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 11111112;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 14px;
+  background: rgba(23, 32, 38, 0.82);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  font: 800 0.88rem/1.2 "Lexend", sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+  pointer-events: auto;
+}
+
+.flip-game-container .quit-game-btn i {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.flip-game-container .quit-game-btn:hover {
+  background: #d85c4a;
+  transform: translateY(-2px);
+}
+
+.game-quit-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(12, 31, 36, 0.64);
+  backdrop-filter: blur(8px);
+}
+
+.flip-game-container .game-quit-box {
+  width: min(400px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 24px;
+  background: rgba(247, 248, 243, 0.98);
+  padding: 1.35rem 1.5rem;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+  text-align: center;
+  font: normal 1rem/1.5 "Lexend", sans-serif;
+  color: #172026;
+}
+
+.flip-game-container .game-quit-box h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #172026;
+}
+
+.flip-game-container .game-quit-box p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(23, 32, 38, 0.72);
+}
+
+.flip-game-container .game-quit-actions {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 1.15rem;
+}
+
+.flip-game-container .game-quit-actions button {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  background: #edf2f1;
+  color: #172026;
+  padding: 0.75rem 0.85rem;
+  font: 800 0.88rem/1.2 "Lexend", sans-serif;
+  cursor: pointer;
+}
+
+.flip-game-container .game-quit-actions button.danger {
+  background: #d85c4a;
+  color: #fff;
+}
+
+/* Memory Lab redesign */
+.flip-game-container {
+  background:
+    linear-gradient(135deg, rgba(13, 30, 32, 0.96), rgba(22, 25, 33, 0.94)),
+    radial-gradient(circle at 15% 18%, rgba(242, 180, 65, 0.22), transparent 28%),
+    radial-gradient(circle at 88% 78%, rgba(0, 125, 132, 0.26), transparent 32%),
+    #12191c;
+}
+
+.flip-game-container .game-intro-wrapper {
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(280px, 0.75fr) minmax(360px, 1fr);
+  grid-template-rows: auto 1fr auto;
+  column-gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 16px 0;
+}
+
+.flip-game-container .common-header {
+  grid-column: 1 / -1;
+  padding: 0;
+}
+
+.flip-game-container .game-header {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.flip-game-container .game-name {
+  text-align: left;
+}
+
+.flip-game-container .game-kicker {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(242, 180, 65, 0.36);
+  border-radius: 999px;
+  background: rgba(242, 180, 65, 0.12);
+  color: #ffd88f;
+  padding: 0.55rem 0.8rem;
+  font: 800 0.82rem/1 "Lexend", sans-serif;
+  text-transform: uppercase;
+}
+
+.flip-game-container .game-name h1 {
+  justify-content: flex-start;
+  text-align: left;
+  font-size: clamp(3rem, 8vw, 7.4rem);
+  line-height: 0.88;
+  text-transform: none;
+  text-shadow: none;
+}
+
+.flip-game-container .game-name h1::before {
+  display: none;
+}
+
+.flip-game-container .game-lead {
+  max-width: 440px;
+  margin-top: 1.1rem;
+  color: rgba(247, 248, 243, 0.78);
+  font: 500 clamp(1rem, 1.7vw, 1.18rem)/1.65 "Lexend", sans-serif;
+}
+
+.flip-game-container .game-box-outer {
+  grid-column: 2;
+  grid-row: 2;
+  width: min(54vw, 560px);
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0;
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(247, 248, 243, 0.14), rgba(247, 248, 243, 0.04)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.04) 0 1px,
+      transparent 1px 16px
+    );
+}
+
+.flip-game-container .game-logo {
+  width: 78%;
+  height: 78%;
+}
+
+.flip-game-container .logo-inner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  box-shadow: none;
+}
+
+.flip-game-container .game-logo .game-card {
+  width: 100%;
+  height: 100%;
+}
+
+.flip-game-container .game-logo .game-front,
+.flip-game-container .game-area .game-front {
+  border: 1px solid rgba(242, 180, 65, 0.34);
+  border-radius: 16px;
+  background:
+    linear-gradient(160deg, rgba(242, 180, 65, 0.98), rgba(255, 216, 143, 0.9)),
+    #f2b441;
+  color: #11191b;
+}
+
+.flip-game-container .game-logo .game-front {
+  font: 900 clamp(1rem, 2vw, 1.15rem)/1 "Lexend";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip-game-container .memory-tile {
+  flex-direction: column;
+  gap: 0.6rem;
+  text-transform: uppercase;
+}
+
+.flip-game-container .memory-tile i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(42px, 7vw, 64px);
+  height: clamp(42px, 7vw, 64px);
+  border-radius: 16px;
+  background: rgba(23, 32, 38, 0.12);
+  color: #172026;
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  line-height: 1;
+}
+
+.flip-game-container .memory-tile span {
+  color: #172026;
+  font-size: clamp(0.78rem, 1.6vw, 0.95rem);
+  letter-spacing: 0;
+}
+
+.flip-game-container .memory-status {
+  display: grid;
+  align-content: center;
+  gap: 0.55rem;
+  padding: clamp(1rem, 2.6vw, 1.35rem);
+  text-align: left;
+  transform: none !important;
+}
+
+.flip-game-container .memory-status-title {
+  color: #172026;
+  font: 900 clamp(1.35rem, 3vw, 2rem)/1.1 "Lexend";
+}
+
+.flip-game-container .memory-status-detail {
+  color: rgba(23, 32, 38, 0.68);
+  font: 600 clamp(0.78rem, 1.45vw, 0.92rem)/1.45 "Lexend";
+}
+
+.flip-game-container .memory-status.is-win {
+  background: linear-gradient(160deg, #dff6e8, #f7f8f3) !important;
+}
+
+.flip-game-container .memory-status.is-fail {
+  background: linear-gradient(160deg, #ffe2da, #f7f8f3) !important;
+}
+
+.flip-game-container .memory-status.is-ready {
+  background: linear-gradient(160deg, #fff0c8, #f7f8f3) !important;
+}
+
+.flip-game-container .game-logo .card-c2 {
+  transform: none;
+}
+
+.flip-game-container .game-logo .game-back,
+.flip-game-container .game-area .game-back,
+.flip-game-container .content-box,
+.flip-game-container .levels {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  background: #f7f8f3 !important;
+}
+
+.flip-game-container .game-logo .content-box {
+  width: calc(200% + 12px);
+}
+
+.flip-game-container .game-logo .content-box.levels {
+  width: 100%;
+}
+
+.flip-game-container .game-logo .content-box .padded {
+  padding: 18px;
+}
+
+.flip-game-container .game-logo .content-box h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.flip-game-container .game-logo .content-box p {
+  margin: 0.5rem 0;
+  line-height: 1.45;
+}
+
+.flip-game-container .levels {
+  display: grid;
+  align-content: center;
+  gap: 0.65rem;
+  padding: 1rem;
+}
+
+.flip-game-container .levels a,
+.flip-game-container .stats-container a {
+  border-radius: 12px;
+  background: #172026;
+  color: #fff !important;
+  font: 900 0.95rem/1.1 "Lexend";
+  padding: 0.85rem;
+}
+
+.flip-game-container .levels a:hover,
+.flip-game-container .stats-container a:hover {
+  background: #007d84;
+}
+
+.flip-game-container .game-front.card-c1::after,
+.flip-game-container .game-front.card-c3::after,
+.flip-game-container .game-front.card-c4::after {
+  content: none;
+}
+
+.flip-game-container .game-logo .game-info {
+  padding: 0;
+  margin: 0.75rem 0;
+  color: rgba(247, 248, 243, 0.78);
+}
+
+.flip-game-container .footer-wrapper {
+  grid-column: 1 / -1;
+  padding: 0;
+  text-align: left;
+}
+
+.flip-game-container .social-media-main {
+  display: none;
+}
+
+.flip-game-container .game-area {
+  background:
+    linear-gradient(135deg, rgba(247, 248, 243, 0.1), rgba(247, 248, 243, 0.03)),
+    rgba(12, 31, 36, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 10px;
+}
+
+.flip-game-container .game-area .game-card {
+  padding: 5px;
+}
+
+.flip-game-container .game-area .game-front {
+  background:
+    linear-gradient(160deg, #172026, #007d84),
+    #172026;
+}
+
+@media (max-width: 860px) {
+  .flip-game-container .game-intro-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 0.9rem;
+    align-items: start;
+    padding: 12px 0;
+  }
+
+  .flip-game-container .game-header,
+  .flip-game-container .game-box-outer,
+  .flip-game-container .footer-wrapper {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .flip-game-container .game-box-outer {
+    width: min(100%, 430px, calc(100vh - 180px));
+    min-height: 380px;
+    justify-self: center;
+  }
+
+  .flip-game-container .game-name {
+    text-align: center;
+  }
+
+  .flip-game-container .game-name h1 {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .flip-game-container .game-lead {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .flip-game-container .footer-wrapper {
+    text-align: center;
+  }
+}
+
+/* Restore the original animated game title. */
+.flip-game-container .game-name {
+  text-align: center;
+}
+
+.flip-game-container .game-name h1 {
+  justify-content: center;
+  text-align: center;
+  background: transparent;
+  color: #eef7ff;
+  font-size: clamp(2.8rem, 7vw, 5.4rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  text-shadow: none;
+  position: relative;
+}
+
+.flip-game-container .game-name h1::before {
+  content: attr(data-text);
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(#3626b2, #00b4d8, #90e0ef, #00b4d8, #3626b2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 100% 90%;
+  line-height: inherit;
+  clip-path: ellipse(120px 120px at -2.54% -9.25%);
+  animation: swing 5s infinite alternate;
+}
+
+/* New command-console layout inside the start board. */
+.flip-game-container,
+.flip-game-container .game-full-outer {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.flip-game-container .game-box-outer {
+  padding: clamp(1rem, 2vw, 1.4rem);
+  width: min(48vw, 560px, calc(100vh - 190px));
+  max-height: calc(100vh - 190px);
+  min-height: 430px;
+}
+
+.flip-game-container .game-logo {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.flip-game-container .logo-inner {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  grid-template-rows: auto 1fr 1fr;
+  gap: 14px;
+}
+
+.flip-game-container .logo-inner .game-card,
+.flip-game-container .logo-inner .game-flipper,
+.flip-game-container .logo-inner .game-front,
+.flip-game-container .logo-inner .game-back {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: none !important;
+  opacity: 1 !important;
+  box-shadow: none;
+  backface-visibility: visible;
+}
+
+.flip-game-container .memory-status-card {
+  grid-column: 1 / -1;
+  min-height: 96px;
+}
+
+.flip-game-container .memory-info-card {
+  min-height: 112px;
+}
+
+.flip-game-container .memory-level-card {
+  grid-column: 2;
+  grid-row: 2 / 4;
+}
+
+.flip-game-container .memory-status,
+.flip-game-container .memory-module,
+.flip-game-container .levels,
+.flip-game-container .stats-container,
+.flip-game-container .instructions {
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 18px !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
+}
+
+.flip-game-container .memory-status *,
+.flip-game-container .memory-module *,
+.flip-game-container .levels *,
+.flip-game-container .stats-container *,
+.flip-game-container .instructions * {
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
+}
+
+.flip-game-container .memory-status {
+  display: grid;
+  align-content: center;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 1rem;
+  padding: clamp(0.8rem, 1.5vw, 1.05rem);
+  background:
+    linear-gradient(135deg, rgba(255, 236, 188, 0.98), rgba(247, 248, 243, 0.96)),
+    #f7f8f3 !important;
+}
+
+.flip-game-container .memory-status-eyebrow {
+  grid-row: 1 / 3;
+  align-self: center;
+  width: 78px;
+  color: #8a4f00;
+  font: 900 0.64rem/1.15 "Lexend";
+  text-transform: uppercase;
+}
+
+.flip-game-container .memory-status-title {
+  color: #172026;
+  font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+}
+
+.flip-game-container .memory-status-detail {
+  max-width: 420px;
+  color: rgba(23, 32, 38, 0.74);
+  font-size: clamp(0.72rem, 1.2vw, 0.84rem);
+}
+
+.flip-game-container .memory-status.is-win {
+  background:
+    linear-gradient(135deg, rgba(210, 247, 229, 0.98), rgba(247, 248, 243, 0.96)),
+    #f7f8f3 !important;
+}
+
+.flip-game-container .memory-status.is-fail {
+  background:
+    linear-gradient(135deg, rgba(255, 222, 213, 0.98), rgba(247, 248, 243, 0.96)),
+    #f7f8f3 !important;
+}
+
+.flip-game-container .memory-module {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: clamp(0.95rem, 2vw, 1.2rem);
+  background:
+    linear-gradient(160deg, rgba(0, 125, 132, 0.58), rgba(23, 32, 38, 0.92)),
+    #172026 !important;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.flip-game-container .memory-module-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: #f2b441;
+  color: #172026;
+  flex: 0 0 auto;
+  font-size: 1.55rem;
+}
+
+.flip-game-container .memory-module-copy {
+  display: grid;
+  gap: 0.25rem;
+  text-align: left;
+}
+
+.flip-game-container .memory-module-copy span {
+  color: #ffffff !important;
+  font: 900 clamp(0.8rem, 1.35vw, 0.96rem)/1.15 "Lexend";
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+.flip-game-container .memory-module-copy small {
+  color: #dcebea !important;
+  font: 700 clamp(0.66rem, 1.05vw, 0.76rem)/1.35 "Lexend";
+}
+
+.flip-game-container .memory-info-card .game-back {
+  display: none;
+}
+
+.flip-game-container .memory-info-card.active .game-front {
+  display: none;
+}
+
+.flip-game-container .memory-info-card.active .game-back {
+  display: block;
+}
+
+.flip-game-container .memory-level-card .levels {
+  display: grid;
+  align-content: center;
+  gap: 0.65rem;
+  padding: clamp(0.9rem, 1.6vw, 1.1rem);
+  background: #f7f8f3 !important;
+}
+
+.flip-game-container .levels-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.25rem;
+  color: #172026;
+  font: 900 clamp(0.86rem, 1.4vw, 1rem)/1.1 "Lexend";
+  text-transform: uppercase;
+}
+
+.flip-game-container .levels-heading i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: #f2b441;
+  color: #172026;
+  font-size: 1.3rem;
+}
+
+.flip-game-container .levels a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 0 1rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #172026, #0d3438) !important;
+  color: #ffffff !important;
+  line-height: 1;
+  font: 900 0.95rem/1 "Lexend" !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase;
+}
+
+.flip-game-container .levels a::after {
+  content: "→";
+  color: #f2b441;
+  font-size: 1.1rem;
+}
+
+.flip-game-container .game-logo .content-box.levels a.play,
+.flip-game-container .game-logo .levels a.play {
+  background: linear-gradient(135deg, #172026, #0d3438) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(242, 180, 65, 0.2);
+}
+
+.flip-game-container .game-logo .content-box.levels a.play:hover,
+.flip-game-container .game-logo .levels a.play:hover {
+  background: linear-gradient(135deg, #007d84, #172026) !important;
+  color: #ffffff !important;
+}
+
+/* Gameplay board: fixed viewport fit, visible image backs. */
+.flip-game-container .game-area.casual,
+.flip-game-container .game-area.medium,
+.flip-game-container .game-area.hard {
+  --game-cols: 4;
+  display: grid !important;
+  grid-template-columns: repeat(var(--game-cols), minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: clamp(6px, 1vmin, 10px);
+  width: min(92vmin, calc(100vw - 32px), 760px);
+  height: min(92vmin, calc(100vh - 92px), 760px);
+  max-height: calc(100vh - 92px);
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  padding: clamp(14px, 2vmin, 18px);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(247, 248, 243, 0.08), rgba(247, 248, 243, 0.02)),
+    rgba(12, 31, 36, 0.9);
+}
+
+.flip-game-container .game-area .game-card {
+  position: relative;
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0;
+  min-height: 0;
+  padding: 0 !important;
+  perspective: 900px;
+}
+
+.flip-game-container .game-area .game-card.found {
+  visibility: hidden;
+}
+
+.flip-game-container .game-area .found {
+  visibility: hidden;
+}
+
+.flip-game-container .game-area .game-flipper,
+.flip-game-container .game-area .game-front,
+.flip-game-container .game-area .game-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(10px, 1.8vmin, 16px);
+  -webkit-backface-visibility: visible !important;
+  -moz-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+}
+
+.flip-game-container .game-area .game-flipper {
+  transform-style: preserve-3d;
+  transform: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+}
+
+.flip-game-container .game-area .game-front {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(242, 180, 65, 0.5);
+  background:
+    radial-gradient(circle at 28% 22%, rgba(242, 180, 65, 0.2), transparent 32%),
+    linear-gradient(145deg, #0f5457, #007d84);
+  box-shadow:
+    inset 0 -8px 0 rgba(0, 0, 0, 0.08),
+    0 8px 18px rgba(0, 0, 0, 0.18);
+  opacity: 1;
+  transform: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+}
+
+.flip-game-container .game-area .game-front::after {
+  content: "?";
+  color: #f7f8f3;
+  font: 900 clamp(1.5rem, 5vmin, 3rem)/1 "Lexend";
+  text-shadow: none;
+  -webkit-text-stroke: 0;
+}
+
+.flip-game-container .game-area .game-back {
+  border: 2px solid #f2b441;
+  background-color: #f7f8f3 !important;
+  background-image: var(--card-image) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  opacity: 0;
+  transform: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+  overflow: hidden;
+}
+
+.flip-game-container .game-area .game-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  background: var(--card-image) center / cover no-repeat;
+  visibility: visible !important;
+}
+
+.flip-game-container .game-area .game-back::before {
+  content: none !important;
+}
+
+.flip-game-container .game-area .game-card.active .game-front {
+  opacity: 0;
+  transform: scale(0.96) !important;
+  -webkit-transform: scale(0.96) !important;
+  -moz-transform: scale(0.96) !important;
+  -ms-transform: scale(0.96) !important;
+  -o-transform: scale(0.96) !important;
+  z-index: 1;
+}
+
+.flip-game-container .game-area .game-card.active .game-back {
+  opacity: 1 !important;
+  z-index: 2;
+  transform: none !important;
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+}
+
+.flip-game-container .game-area .game-timer {
+  grid-column: 1 / -1;
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 14px;
+  width: 0%;
+  height: 7px;
+  border-radius: 999px;
+  background: #f2b441;
+}
+
+.flip-game-container .stats-container,
+.flip-game-container .instructions {
+  overflow: auto;
+  background: #f7f8f3 !important;
+  color: #172026 !important;
+}
+
+.flip-game-container .stats-container .padded,
+.flip-game-container .instructions .padded {
+  padding: 1rem;
+}
+
+.flip-game-container .stats-container a {
+  position: static;
+  width: auto;
+  margin: 0.8rem 0 0;
+}
+
+@media (max-width: 860px) {
+  .flip-game-container .logo-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+
+  .flip-game-container .memory-status-card,
+  .flip-game-container .memory-level-card {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .flip-game-container .memory-level-card {
+    min-height: 230px;
+  }
 }

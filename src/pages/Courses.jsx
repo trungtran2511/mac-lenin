@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { coursesData } from "../data/coursesData";
+import { textbookTopics } from "../data/textbookTopics";
+import { philosophyQuotes } from "../data/philosophyQuotes";
 import "../styles/courses/courses.css";
 import { Link } from "react-router-dom";
 import Zoom from "react-medium-image-zoom";
@@ -11,7 +12,7 @@ const Courses = () => {
   const handleTopicChange = (e) => {
     const topicId = e.target.value;
     if (topicId) {
-      const topic = coursesData.find((t) => t.id === topicId);
+      const topic = textbookTopics.find((t) => t.id === topicId);
       setSelectedTopic(topic);
     } else {
       setSelectedTopic(null);
@@ -33,10 +34,25 @@ const Courses = () => {
       );
     }
 
+    const groupedItems = selectedTopic.items.reduce((groups, item) => {
+      const lastGroup = groups[groups.length - 1];
+
+      if (lastGroup?.heading === item.heading) {
+        lastGroup.items.push(item);
+      } else {
+        groups.push({ heading: item.heading, items: [item] });
+      }
+
+      return groups;
+    }, []);
+
     return (
       <div className="d-flex flex-column gap-3">
-        {selectedTopic.cac_van_de.map((vd) => (
-          <div key={vd.stt} className="question-item bg-light rounded-3 p-3">
+        {groupedItems.map((group, index) => (
+          <div
+            key={`${group.heading}-${index}`}
+            className="question-item topic-section-card bg-light rounded-3 p-3"
+          >
             <div className="d-flex align-items-start gap-3">
               <span
                 className="badge rounded-pill text-white d-flex align-items-center justify-content-center"
@@ -47,16 +63,26 @@ const Courses = () => {
                   fontSize: "14px",
                 }}
               >
-                {vd.stt}
+                {index + 1}
               </span>
               <div className="flex-grow-1">
                 <h6
                   className="fw-bold mb-2"
                   style={{ color: "var(--secondary-color)" }}
                 >
-                  {vd.van_de}
+                  {group.heading}
                 </h6>
-                <p className="mb-0 text-secondary">{vd.noi_dung}</p>
+                <div className="topic-section-body">
+                  {group.items.map((item) => (
+                    <p key={item.source} className="mb-2 text-secondary">
+                      {item.text}
+                    </p>
+                  ))}
+                </div>
+                <small className="text-muted">
+                  <i className="bi bi-bookmark-check me-1"></i>
+                  {group.items[0].source}
+                </small>
               </div>
             </div>
           </div>
@@ -64,6 +90,10 @@ const Courses = () => {
       </div>
     );
   };
+
+  const selectedQuote = selectedTopic
+    ? philosophyQuotes[selectedTopic.id]
+    : null;
 
   const renderMindmap = () => {
     if (!selectedTopic) {
@@ -79,13 +109,13 @@ const Courses = () => {
       );
     }
 
-    if (selectedTopic.mindmap_url && selectedTopic.mindmap_url.trim() !== "") {
+    if (selectedTopic.image && selectedTopic.image.trim() !== "") {
       return (
         <Zoom>
           <img
-            src={selectedTopic.mindmap_url}
+            src={selectedTopic.image}
             className="img-fluid rounded"
-            alt="Sơ đồ tư duy"
+            alt={selectedTopic.title}
             style={{ cursor: "zoom-in" }}
           />
         </Zoom>
@@ -116,12 +146,20 @@ const Courses = () => {
           <span className="back-text">Trang chủ</span>
         </Link>
         <h1 className="mb-2 fw-bold" style={{ color: "#3626b2" }}>
-          <i className="bi bi-book"></i> Học cùng chúng tớ
+          <i className="bi bi-book"></i> Học theo giáo trình
         </h1>
         <p className="mb-0 fs-5">
-          <i className="bi bi-lightbulb"></i> Chủ nghĩa duy vật biện chứng và
-          chủ nghĩa duy vật lịch sử
+          <i className="bi bi-lightbulb"></i> Nội dung bám theo Giáo trình
+          Triết học Mác - Lênin
         </p>
+        <a
+          className="download-textbook-btn"
+          href="/docs/giao-trinh-triet-hoc-mac-lenin.docx"
+          download
+        >
+          <i className="bi bi-download"></i>
+          Tải giáo trình DOCX
+        </a>
       </div>
 
       {/* Topic Dropdown Selector */}
@@ -141,9 +179,9 @@ const Courses = () => {
           style={{ borderColor: "var(--primary-color)" }}
         >
           <option value="">-- Vui lòng chọn một chủ đề --</option>
-          {coursesData.map((topic, index) => (
+          {textbookTopics.map((topic, index) => (
             <option key={topic.id} value={topic.id}>
-              Chủ đề {index + 1}: {topic.tieu_de}
+              Mục {index + 1}: {topic.title}
             </option>
           ))}
         </select>
@@ -163,7 +201,7 @@ const Courses = () => {
                 style={{ color: "var(--secondary-color)" }}
               >
                 <i className="bi bi-book-half"></i>{" "}
-                {selectedTopic ? selectedTopic.tieu_de : "Nội dung bài học"}
+                {selectedTopic ? selectedTopic.title : "Nội dung giáo trình"}
               </h3>
             </div>
             <div>{renderContent()}</div>
@@ -181,10 +219,22 @@ const Courses = () => {
               <i className="bi bi-quote"></i> Câu nói hay
             </h5>
             <p className="fst-italic mb-0">
-              {selectedTopic
-                ? selectedTopic.cau_noi_hay
-                : "Chọn một chủ đề để xem câu nói hay..."}
+              {selectedQuote
+                ? `“${selectedQuote.text}”`
+                : "Chọn một chủ đề để xem câu nói hay phù hợp..."}
             </p>
+            {selectedQuote && (
+              <div className="quote-source">
+                <strong>{selectedQuote.author}</strong>
+                <a
+                  href={selectedQuote.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {selectedQuote.source}
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Ảnh sơ đồ tư duy */}

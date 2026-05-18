@@ -1,10 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import $ from "jquery";
 import "../styles/flip/flip.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { flipImages } from "../data/flipImagesData";
 
 export default function FlipCardPage() {
+  const [showQuitConfirm, setShowQuitConfirm] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     // localStorage functions
     function set(key, value) {
@@ -30,34 +33,34 @@ export default function FlipCardPage() {
 
     function updateStats() {
       $("#stats").html(
-        '<div class="padded"><h2>Figures: <span>' +
+        '<div class="padded"><h2>Thống kê: <span>' +
           "<b>" +
           get("flip_won") +
-          "</b><i>Won</i>" +
+          "</b><i>Thắng</i>" +
           "<b>" +
           get("flip_lost") +
-          "</b><i>Lost</i>" +
+          "</b><i>Thua</i>" +
           "<b>" +
           get("flip_abandoned") +
-          "</b><i>Abandoned</i></span></h2>" +
-          "<ul><li><b>Best Casual:</b> <span>" +
+          "</b><i>Bỏ ván</i></span></h2>" +
+          "<ul><li><b>Dễ nhanh nhất:</b> <span>" +
           toTime(get("flip_casual")) +
           "</span></li>" +
-          "<li><b>Best Medium:</b> <span>" +
+          "<li><b>Vừa nhanh nhất:</b> <span>" +
           toTime(get("flip_medium")) +
           "</span></li>" +
-          "<li><b>Best Hard:</b> <span>" +
+          "<li><b>Khó nhanh nhất:</b> <span>" +
           toTime(get("flip_hard")) +
           "</span></li></ul>" +
-          "<ul><li><b>Total Flips:</b> <span>" +
+          "<ul><li><b>Tổng lượt lật:</b> <span>" +
           parseInt(
             (parseInt(get("flip_matched")) + parseInt(get("flip_wrong"))) * 2,
           ) +
           "</span></li>" +
-          "<li><b>Matched Flips:</b> <span>" +
+          "<li><b>Lật đúng:</b> <span>" +
           get("flip_matched") +
           "</span></li>" +
-          "<li><b>Wrong Flips:</b> <span>" +
+          "<li><b>Lật sai:</b> <span>" +
           get("flip_wrong") +
           "</span></li></ul></div>",
       );
@@ -77,14 +80,88 @@ export default function FlipCardPage() {
       return array;
     }
 
+    function createCardFallback(index) {
+      const symbols = [
+        "M",
+        "L",
+        "Y",
+        "V",
+        "BC",
+        "DV",
+        "TT",
+        "CN",
+        "XH",
+        "NT",
+        "GC",
+        "DT",
+        "LS",
+        "QH",
+        "TD",
+        "TH",
+        "VC",
+        "YT",
+        "LL",
+        "TN",
+        "HD",
+        "ND",
+        "TG",
+        "PP",
+        "CM",
+        "LD",
+        "CT",
+        "KT",
+        "VH",
+        "PL",
+        "GT",
+        "CN",
+      ];
+      const hue = (index * 41) % 360;
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="hsl(${hue}, 72%, 38%)"/>
+              <stop offset="100%" stop-color="hsl(${(hue + 44) % 360}, 78%, 22%)"/>
+            </linearGradient>
+          </defs>
+          <rect width="320" height="320" rx="34" fill="url(#g)"/>
+          <circle cx="244" cy="72" r="42" fill="rgba(255,255,255,.16)"/>
+          <path d="M52 220 C98 154, 130 246, 174 174 S244 122, 270 88" fill="none" stroke="#f2b441" stroke-width="14" stroke-linecap="round"/>
+          <rect x="70" y="72" width="180" height="176" rx="24" fill="rgba(247,248,243,.9)"/>
+          <text x="160" y="168" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-size="72" font-weight="900" fill="#172026">${symbols[index] || index + 1}</text>
+          <text x="160" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#007d84">TRIET HOC</text>
+        </svg>`;
+
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
     function startScreen(text) {
       $(".game-area").removeAttr("class").addClass("game-area").empty();
       $(".game-intro-wrapper").fadeIn(250);
 
-      $(".card-c1").text(text.substring(0, 1));
-      $(".card-c2").text(text.substring(1, 2));
-      $(".card-c3").text(text.substring(2, 3));
-      $(".card-c4").text(text.substring(3, 4));
+      const statusMap = {
+        flip: {
+          label: "Sẵn sàng",
+          detail: "Chọn cấp độ trong ô Play để bắt đầu ván mới.",
+        },
+        nice: {
+          label: "Thắng rồi",
+          detail: "Bạn đã ghép hết các cặp. Chọn cấp độ để chơi tiếp.",
+        },
+        fail: {
+          label: "Hết giờ",
+          detail: "Thử lại với cấp độ thấp hơn hoặc ghi nhớ theo cụm màu.",
+        },
+      };
+      const status = statusMap[text] || statusMap.flip;
+
+      $(".memory-status")
+        .removeClass("is-win is-fail is-ready")
+        .addClass(
+          text === "nice" ? "is-win" : text === "fail" ? "is-fail" : "is-ready",
+        );
+      $(".memory-status-title").text(status.label);
+      $(".memory-status-detail").text(status.detail);
 
       // If won game
       if (text == "nice") {
@@ -178,22 +255,23 @@ export default function FlipCardPage() {
         }
 
         var shu = shuffle($.merge(obj, obj)),
-          cardSize = 100 / Math.sqrt(shu.length);
+          gridSize = Math.sqrt(shu.length);
 
-        for (var i = 0; i < shu.length; i++) {
-          var imageIndex = shu[i];
+        $(".game-area").css("--game-cols", gridSize);
+
+        for (var cardIndex = 0; cardIndex < shu.length; cardIndex++) {
+          var imageIndex = shu[cardIndex];
           var imageUrl = flipImages[imageIndex] || flipImages[0];
+          var fallbackUrl = createCardFallback(imageIndex);
 
           // Tạo card element
           var card = $(
-            '<div class="game-card" style="width:' +
-              cardSize +
-              "%;height:" +
-              cardSize +
-              '%;">' +
+            '<div class="game-card">' +
               '<div class="game-flipper">' +
               '<div class="game-front"></div>' +
-              '<div class="game-back"></div>' +
+              '<div class="game-back">' +
+              '<img class="game-card-img" alt="Thẻ triết học" />' +
+              "</div>" +
               "</div>" +
               "</div>",
           );
@@ -202,12 +280,21 @@ export default function FlipCardPage() {
           card
             .find(".game-back")
             .css({
-              "background-image": "url(" + imageUrl + ")",
+              "--card-image": "url(" + fallbackUrl + ")",
+              "background-image": "url(" + fallbackUrl + ")",
               "background-size": "cover",
               "background-position": "center",
               "background-repeat": "no-repeat",
             })
-            .attr("data-img", imageUrl);
+            .attr("data-img", fallbackUrl);
+
+          card
+            .find(".game-card-img")
+            .attr("src", fallbackUrl)
+            .attr("data-remote-src", imageUrl)
+            .on("error", function () {
+              $(this).attr("src", fallbackUrl);
+            });
 
           card.appendTo(".flip-game-container .game-area");
         }
@@ -264,7 +351,7 @@ export default function FlipCardPage() {
           })
           .one(
             "webkitAnimationEnd oanimationend msAnimationEnd animationend",
-            function (e) {
+            function () {
               startScreen("fail");
             },
           );
@@ -317,6 +404,26 @@ export default function FlipCardPage() {
 
   return (
     <div className="flip-game-container">
+      {showQuitConfirm && (
+        <div className="game-quit-modal">
+          <div className="game-quit-box">
+            <h3>Thoát Memory Game?</h3>
+            <p>Tiến trình ván hiện tại sẽ không được lưu nếu bạn thoát.</p>
+            <div className="game-quit-actions">
+              <button type="button" onClick={() => setShowQuitConfirm(false)}>
+                Chơi tiếp
+              </button>
+              <button
+                type="button"
+                className="danger"
+                onClick={() => navigate("/")}
+              >
+                Xác nhận thoát
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="game-full-outer">
         <div id="g" className="game-area"></div>
         <div className="game-intro-wrapper">
@@ -335,96 +442,115 @@ export default function FlipCardPage() {
           </div>
           <div className="game-box-outer">
             <div className="game-logo">
-              <p className="game-info info-uppercase">
-                Click the P to get started
-              </p>
               <div className="logo-inner">
-                <div className="game-card left">
+                <div className="game-card memory-status-card active twist">
                   <div className="game-flipper">
-                    <div className="game-front card-c1">F</div>
-                    <div
-                      className="game-back content-box stats-container"
-                      id="stats"
-                    >
+                    <div className="game-back game-front memory-status is-ready">
+                      <div className="memory-status-eyebrow">
+                        Bảng điều khiển
+                      </div>
+                      <div className="memory-status-title">Sẵn sàng</div>
+                      <div className="memory-status-detail">
+                        Chọn cấp độ để bắt đầu ván mới.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="game-card memory-info-card">
+                  <div className="game-flipper">
+                    <div className="game-front memory-module">
+                      <div className="memory-module-icon">
+                        <i
+                          className="bi bi-bar-chart-line"
+                          aria-hidden="true"
+                        ></i>
+                      </div>
+                      <div className="memory-module-copy">
+                        <span>Thống kê</span>
+                        <small>Theo dõi số ván và lượt lật</small>
+                      </div>
+                    </div>
+                    <div className="game-back content-box stats-container" id="stats">
                       <div className="padded">
-                        <h2>Figures</h2>
-                        Looks like you haven&apos;t FLIPped yet.
+                        <h2>Thống kê</h2>
+                        Bạn chưa chơi ván nào trong phiên này.
                         <a href="javascript:void(0);" className="playnow">
-                          Play now
+                          Chơi ngay
                         </a>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="game-card active twist">
+
+                <div className="game-card memory-info-card">
                   <div className="game-flipper">
-                    <div className="game-back game-front">
-                      <div className="card-c2">L</div>
+                    <div className="game-front memory-module">
+                      <div className="memory-module-icon">
+                        <i className="bi bi-info-circle" aria-hidden="true"></i>
+                      </div>
+                      <div className="memory-module-copy">
+                        <span>Luật chơi</span>
+                        <small>Lật hai thẻ và tìm cặp giống nhau</small>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="game-card left">
-                  <div className="game-flipper">
-                    <div className="game-front card-c3">I</div>
                     <div className="game-back content-box instructions">
                       <div className="padded">
-                        <h2>Instructions</h2>
-                        <p>Press [p] to pause, or [ESC] to abandon game.</p>
+                        <h2>Cách chơi</h2>
+                        <p>Nhấn [p] để tạm dừng, hoặc [ESC] để bỏ ván.</p>
                         <p>
-                          Flip is a timed card memory game. Click the blue cards
-                          to see what symbol they uncover and try to find the
-                          matching symbol underneath the other cards.
+                          Lật hai thẻ bất kỳ, quan sát hình phía sau và tìm
+                          đúng cặp giống nhau.
                         </p>
                         <p>
-                          Uncover two matching symbols at once to eliminate them
-                          from the game.
+                          Ghép đúng thì cặp thẻ biến mất; ghép sai thì thẻ úp
+                          lại.
                         </p>
                         <p>
-                          Eliminate all cards as fast as you can to win the
-                          game. Have fun FLIPing!
+                          Xóa hết thẻ càng nhanh càng tốt để phá kỷ lục.
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="game-card">
+
+                <div className="game-card memory-level-card">
                   <div className="game-flipper">
-                    <div className="game-front card-c4">P</div>
                     <div className="game-back content-box levels">
+                      <div className="levels-heading">
+                        <i className="bi bi-play-fill" aria-hidden="true"></i>
+                        <span>Chọn cấp độ</span>
+                      </div>
                       <a
                         href="javascript:void(0);"
                         data-level="8"
                         className="play"
                       >
-                        Casual
+                        Dễ
                       </a>
                       <a
                         href="javascript:void(0);"
                         data-level="18"
                         className="play"
                       >
-                        Medium
+                        Vừa
                       </a>
                       <a
                         href="javascript:void(0);"
                         data-level="32"
                         className="play"
                       >
-                        Hard
+                        Khó
                       </a>
                     </div>
                   </div>
                 </div>
               </div>
-              <p className="game-info">
-                Flip should work best in Google Chrome, decent in Firefox, IE10
-                and Opera;
-              </p>
             </div>
           </div>
 
           <footer className="footer-wrapper">
-            &copy; Copyright {new Date().getFullYear()} Nguyễn Thị Thu Hà . All
+            &copy; Copyright {new Date().getFullYear()} Group2-AI1901. All
             rights reserved.
           </footer>
 
@@ -442,6 +568,15 @@ export default function FlipCardPage() {
           </div>
         </div>
       </div>
+      <button
+        type="button"
+        className="quit-game-btn"
+        onClick={() => setShowQuitConfirm(true)}
+        aria-label="Thoát game"
+      >
+        <i className="bi bi-box-arrow-left" aria-hidden="true"></i>
+        Thoát
+      </button>
     </div>
   );
 }

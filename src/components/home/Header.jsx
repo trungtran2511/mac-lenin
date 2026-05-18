@@ -4,7 +4,6 @@ import logoDark2 from "../../assets/images/logo/logo-dark2.svg";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
 
@@ -74,19 +73,20 @@ const Header = () => {
                           <div className="logo-wrap">
                             <div className="main-logo">
                               <a
-                                href="https://lmsstyle.com/theme/new-learning/"
-                                aria-label="New Learning | Premium Moodle Theme"
+                                href="/"
+                                className="brand-link"
+                                aria-label="GROUP 2 - Triết học và đời sống"
                               >
                                 <img
-                                  className="logo-light is_svg"
-                                  src="https://lmsstyle.com/theme/new-learning/theme/image.php/mb2nl/theme/1768588523/logo-default"
-                                  alt="New Learning | Premium Moodle Theme"
-                                />
-                                <img
-                                  className="logo-dark is_svg"
+                                  className="brand-icon is_svg"
                                   src={logoDark2}
-                                  alt="New Learning | Premium Moodle Theme"
+                                  alt=""
+                                  aria-hidden="true"
                                 />
+                                <span className="brand-text">
+                                  <strong>GROUP 2</strong>
+                                  <small>Triết học &amp; Đời sống</small>
+                                </span>
                               </a>
                             </div>
                           </div>
@@ -158,7 +158,7 @@ const Header = () => {
                     <div className="potentialidp">
                       <a
                         className="btn btn-socimage btn-Google"
-                        href="https://lmsstyle.com/theme/new-learning/auth/oauth2/login.php?id=1&wantsurl=https%3A%2F%2Flmsstyle.com%2Ftheme%2Fnew-learning%2Fmod%2Fpage%2Fview.php%3Fid%3D879&sesskey=E1VhFrTnr9"
+                        href="#"
                       >
                         <span className="btn-image" aria-hidden="true">
                           <img
@@ -180,7 +180,7 @@ const Header = () => {
                   id="header-form-login"
                   method="post"
                   className="mb-2"
-                  action="https://lmsstyle.com/theme/new-learning/login/index.php"
+                  action="#"
                 >
                   <div className="form-field">
                     <label htmlFor="login-username">
@@ -215,7 +215,7 @@ const Header = () => {
                     </span>
                   </div>
                   <span className="login-info">
-                    <a href="https://lmsstyle.com/theme/new-learning/login/forgot_password.php">
+                    <a href="#">
                       Forgotten your username or password?
                     </a>
                   </span>
@@ -274,7 +274,7 @@ const Header = () => {
                 <div className="form-inner">
                   <form
                     id="theme-search"
-                    action="https://lmsstyle.com/theme/new-learning/course/search.php"
+                    action="#"
                     className="d-flex justify-content-center align-items-center"
                   >
                     <input

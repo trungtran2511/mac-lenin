@@ -1,13 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { quizQuestions } from "../data/quizData";
+import { allQuizQuestions } from "../data/quizBank";
+import { normalizeQuizQuestion } from "../utils/quizText";
+import { textbookExplanations } from "../data/textbookExplanations";
 import logoImg from "../assets/images/logo/logo.png";
 import bgImg from "../assets/images/background/bg_0.png";
 import clockImg from "../assets/images/clock/clock.png";
 
 const QuizPage = () => {
+  const quizTimeLimits = {
+    10: 5 * 60,
+    30: 15 * 60,
+    50: 30 * 60,
+  };
+
   // ============ STATE ============
   const [showModal, setShowModal] = useState(true);
+  const [showFinishConfirm, setShowFinishConfirm] = useState(false);
   const [quizConfig, setQuizConfig] = useState({
     numberOfQuestions: 10,
     chapter: "random",
@@ -21,14 +30,14 @@ const QuizPage = () => {
 
   const navigate = useNavigate();
 
-  // Get unique chapters from quizQuestions
-  const chapters = [...new Set(quizQuestions.map((q) => q.chapter))].sort(
+  // Get unique chapters from allQuizQuestions
+  const chapters = [...new Set(allQuizQuestions.map((q) => q.chapter))].sort(
     (a, b) => a - b,
   );
 
   // ============ FILTER QUESTIONS ============
   const handleStartQuiz = () => {
-    let filtered = [...quizQuestions];
+    let filtered = [...allQuizQuestions];
 
     // Filter by chapter
     if (quizConfig.chapter !== "random") {
@@ -46,7 +55,9 @@ const QuizPage = () => {
 
     // Shuffle and limit questions
     const shuffled = filtered.sort(() => Math.random() - 0.5);
-    const limited = shuffled.slice(0, parseInt(quizConfig.numberOfQuestions));
+    const limited = shuffled
+      .slice(0, parseInt(quizConfig.numberOfQuestions))
+      .map(normalizeQuizQuestion);
 
     if (limited.length === 0) {
       alert("Không tìm thấy câu hỏi phù hợp với cấu hình đã chọn!");
@@ -54,6 +65,10 @@ const QuizPage = () => {
     }
 
     setFilteredQuestions(limited);
+    setCurrentQuestion(0);
+    setSelectedAnswers({});
+    setTimeLeft(quizTimeLimits[parseInt(quizConfig.numberOfQuestions)] || 300);
+    setShowFinishConfirm(false);
     setShowModal(false);
     setProgress((1 / limited.length) * 100);
   };
@@ -61,6 +76,55 @@ const QuizPage = () => {
   const totalQuestions = filteredQuestions.length;
   const currentData = filteredQuestions[currentQuestion];
   const selectedAnswer = selectedAnswers[currentQuestion];
+
+  // ============ SUBMIT QUIZ ============
+  const handleSubmit = useCallback(() => {
+    let score = 0;
+    const review = filteredQuestions.map((question, index) => {
+      const selectedIndex = selectedAnswers[index];
+      const correctIndex = question.correctAnswer;
+      const isCorrect = selectedIndex === correctIndex;
+      const textbookRecord = textbookExplanations[question.id];
+      const textbookExplanation =
+        typeof textbookRecord === "string"
+          ? textbookRecord
+          : textbookRecord?.explanation;
+      const textbookSource =
+        typeof textbookRecord === "string" ? "" : textbookRecord?.source;
+
+      if (isCorrect) {
+        score++;
+      }
+
+      return {
+        id: question.id,
+        chapter: question.chapter,
+        question: question.question,
+        options: question.options,
+        selectedAnswer: selectedIndex ?? null,
+        correctAnswer: correctIndex,
+        isCorrect,
+        explanation:
+          textbookExplanation ||
+          question.explanation ||
+          `Đáp án đúng là "${question.options[correctIndex]}". Nội dung này khớp trực tiếp với khái niệm hoặc luận điểm được hỏi; các phương án còn lại không phản ánh đúng trọng tâm của câu hỏi.`,
+        source: textbookSource || "Giáo trình Triết học Mác - Lênin",
+      };
+    });
+
+    navigate("/quiz/results", {
+      state: {
+        score,
+        total: totalQuestions,
+        percentage: totalQuestions ? (score / totalQuestions) * 100 : 0,
+        review,
+      },
+    });
+  }, [filteredQuestions, navigate, selectedAnswers, totalQuestions]);
+
+  const handleRequestFinish = () => {
+    setShowFinishConfirm(true);
+  };
 
   // ============ TIMER COUNTDOWN ============
   useEffect(() => {
@@ -76,7 +140,7 @@ const QuizPage = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeLeft, showModal, filteredQuestions]);
+  }, [timeLeft, showModal, filteredQuestions, handleSubmit]);
 
   // Format time MM:SS
   const formatTime = (seconds) => {
@@ -114,26 +178,6 @@ const QuizPage = () => {
     }
   };
 
-  // ============ SUBMIT QUIZ ============
-  const handleSubmit = () => {
-    let score = 0;
-    Object.keys(selectedAnswers).forEach((qIndex) => {
-      const answerIndex = selectedAnswers[qIndex];
-      const correctIndex = filteredQuestions[qIndex].correctAnswer;
-      if (answerIndex === correctIndex) {
-        score++;
-      }
-    });
-
-    navigate("/quiz/results", {
-      state: {
-        score,
-        total: totalQuestions,
-        percentage: (score / totalQuestions) * 100,
-      },
-    });
-  };
-
   // ============ RENDER ============
   return (
     <div className="wrapper overflow-hidden position-relative">
@@ -163,10 +207,6 @@ const QuizPage = () => {
                 <option value="10">10 câu</option>
                 <option value="30">30 câu</option>
                 <option value="50">50 câu</option>
-                <option value="100">100 câu</option>
-                <option value={quizQuestions.length}>
-                  Tất cả ({quizQuestions.length} câu)
-                </option>
               </select>
 
               {/* Chapter Selection */}
@@ -219,6 +259,38 @@ const QuizPage = () => {
               <button className="start-quiz-btn" onClick={handleStartQuiz}>
                 <i className="bi bi-play-fill"></i>
                 Bắt Đầu Quiz
+              </button>
+              <div className="quiz-bank-note">
+                Ngân hàng hiện có {allQuizQuestions.length} câu. 10 câu / 5
+                phút, 30 câu / 15 phút, 50 câu / 30 phút.
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showFinishConfirm && (
+        <div className="quiz-confirm-modal">
+          <div className="quiz-confirm-box">
+            <h3>Kết thúc quiz sớm?</h3>
+            <p>
+              Bài làm sẽ được chấm ngay. Câu chưa chọn đáp án sẽ được tính là
+              sai.
+            </p>
+            <div className="quiz-confirm-actions">
+              <button
+                type="button"
+                className="confirm-secondary"
+                onClick={() => setShowFinishConfirm(false)}
+              >
+                Tiếp tục làm
+              </button>
+              <button
+                type="button"
+                className="confirm-danger"
+                onClick={handleSubmit}
+              >
+                Xác nhận kết thúc
               </button>
             </div>
           </div>
@@ -312,14 +384,23 @@ const QuizPage = () => {
                 <div className="count_number countdown_timer pt-1">
                   <span>{formatTime(timeLeft)}</span>
                 </div>
+                <button
+                  type="button"
+                  className="finish-early-btn"
+                  onClick={handleRequestFinish}
+                >
+                  <i className="bi bi-stop-circle-fill"></i>
+                  Kết thúc quiz
+                </button>
               </div>
 
               {/* Question */}
               <div className="form_content">
                 <div className="question_title py-5 text-white">
-                  <h1 className="text-center text-uppercase overflow-hidden rounded-pill">
-                    {currentData.question}
-                  </h1>
+                  <p className="question-meta">
+                    Câu {currentQuestion + 1}/{totalQuestions}
+                  </p>
+                  <h1 className="question-text">{currentData.question}</h1>
                 </div>
 
                 {/* Options */}
@@ -327,12 +408,20 @@ const QuizPage = () => {
                   {currentData.options.map((option, index) => (
                     <div key={index} className="col-md-6 py-3">
                       <label
-                        className={`bg-white overflow-hidden rounded-pill text-center ${
+                        className={`bg-white overflow-hidden rounded-pill text-center answer-option ${
                           selectedAnswer === index ? "active" : ""
                         }`}
                         onClick={() => handleSelectAnswer(index)}
                       >
-                        {option}
+                        <span className="answer-key">
+                          {String.fromCharCode(65 + index)}
+                        </span>
+                        <span className="answer-text">{option}</span>
+                        {selectedAnswer === index && (
+                          <span className="selected-mark">
+                            <i className="bi bi-check-lg"></i>
+                          </span>
+                        )}
                         <input
                           type="radio"
                           name={`question_${currentQuestion}`}

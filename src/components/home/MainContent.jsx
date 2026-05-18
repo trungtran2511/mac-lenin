@@ -1,27 +1,27 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import demoCert from "../../assets/images/demo_certificates.png";
-import makdahome from "../../assets/images/makdahome.png";
-import thuHa from "../../assets/images/thu-ha.png";
 import { Link } from "react-router-dom";
 
-const MainContent = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    "Hãy học cùng chúng tôi",
-  );
-  const [isSelectOpen, setIsSelectOpen] = useState(false);
+const heroImage =
+  "https://commons.wikimedia.org/wiki/Special:FilePath/Marx%20and%20Engels.jpg";
+const philosophyImage =
+  "https://commons.wikimedia.org/wiki/Special:FilePath/The%20School%20of%20Athens%20by%20Raffaello%20Sanzio%20da%20Urbino.jpg?width=1280";
+const quizImage =
+  "https://commons.wikimedia.org/wiki/Special:FilePath/Test%20%28student%20assessment%29.jpeg?width=1280";
+const flashcardImage =
+  "https://commons.wikimedia.org/wiki/Special:FilePath/Quizkaart%20test%20Normen.png";
+const thinkingImage =
+  "https://commons.wikimedia.org/wiki/Special:FilePath/Part%20of%20a%20bookshelf%20containing%20books%20about%20ancient%20philosophy%20%281%29.jpg?width=1280";
 
+const MainContent = () => {
   const vantaRef = useRef(null);
   const vantaEffect = useRef(null);
-  const languages = ["Hãy học cùng chúng tôi"];
 
   useEffect(() => {
     const initVanta = () => {
-      console.log("Window.VANTA:", window.VANTA); // Debug
-      console.log("vantaRef.current:", vantaRef.current); // Debug
-
-      if (window.VANTA && window.VANTA.BIRDS && vantaRef.current) {
+      if (window.VANTA && window.VANTA.NET && vantaRef.current) {
         try {
-          vantaEffect.current = window.VANTA.BIRDS({
+          vantaEffect.current = window.VANTA.NET({
             el: vantaRef.current,
             mouseControls: true,
             touchControls: true,
@@ -30,11 +30,12 @@ const MainContent = () => {
             minWidth: 200.0,
             scale: 1.0,
             scaleMobile: 1.0,
-            backgroundColor: 0x80633,
-            color1: 0xffea,
-            color2: 0x21e2ea,
+            color: 0xf2b441,
+            backgroundColor: 0x0c1f24,
+            points: 11.0,
+            maxDistance: 22.0,
+            spacing: 18.0,
           });
-          console.log("Vanta initialized:", vantaEffect.current); // Debug
         } catch (err) {
           console.error("Vanta error:", err);
         }
@@ -63,11 +64,11 @@ const MainContent = () => {
                     <h1 className="heding h2 iscurse maincoursepage">
                       <a
                         className="d-inline-block w-100"
-                        href="https://lmsstyle.com/theme/new-learning/course/view.php?id=45"
+                        href="/courses"
                         tabIndex="-1"
                       >
                         <span className="course-backtext">Course</span>
-                        School programming
+                        Triết học Mác - Lênin
                       </a>
                     </h1>
                   </div>
@@ -88,27 +89,27 @@ const MainContent = () => {
                     <nav aria-label="Navigation bar">
                       <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                          <a href="https://lmsstyle.com/theme/new-learning/">
+                          <a href="/">
                             Home
                           </a>
                         </li>
                         <li className="breadcrumb-item">
-                          <a href="https://lmsstyle.com/theme/new-learning/course/index.php">
+                          <a href="/courses">
                             Courses
                           </a>
                         </li>
                         <li className="breadcrumb-item">
-                          <a href="https://lmsstyle.com/theme/new-learning/course/index.php?categoryid=4">
-                            Pages demo
+                          <a href="/quiz">
+                            Luyện tập
                           </a>
                         </li>
                         <li className="breadcrumb-item">
                           <a
-                            href="viewe986.html?id=879"
+                            href="/courses"
                             aria-current="page"
-                            title="School programming"
+                            title="Triết học Mác - Lênin"
                           >
-                            School programming
+                            Triết học Mác - Lênin
                           </a>
                         </li>
                       </ol>
@@ -150,7 +151,7 @@ const MainContent = () => {
 
                     {/* Page Context Header */}
                     <div className="page-context-header m-0 p-0">
-                      <h2 className="activity-name">School programming</h2>
+                      <h2 className="activity-name">Triết học Mác - Lênin</h2>
                     </div>
 
                     {/* Activity Header */}
@@ -162,7 +163,7 @@ const MainContent = () => {
                         <span className="sr-only">Completion requirements</span>
                         <div
                           data-region="activity-information"
-                          data-activityname="School programming"
+                          data-activityname="Triết học Mác - Lênin"
                           className="activity-information"
                         ></div>
                       </div>
@@ -233,14 +234,14 @@ const MainContent = () => {
                                           style={{ color: "rgb(255, 180, 0)" }}
                                         >
                                           {" "}
-                                          Cùng Nhóm 6 - KS1872
+                                          Cùng Group2-AI1901
                                         </span>
                                       </h4>
 
-                                      {/* Select Dropdown */}
+                                      {/* Hero intro */}
                                       <div
                                         id="select_69724aa54422f"
-                                        className="mb2-pb-select isimage0 layouth label1 center0"
+                                        className="hero-intro-block"
                                         style={{
                                           marginTop: "0px",
                                           marginBottom: "45px",
@@ -251,64 +252,18 @@ const MainContent = () => {
                                         }}
                                         data-target="0"
                                       >
-                                        <div className="select-label">
+                                        <p className="hero-quote">
                                           <span className="labeltext">
                                             “Học triết không làm bạn giàu –
                                             nhưng làm bạn đặt câu hỏi vì sao
                                             mình nghèo.”
                                           </span>
-                                        </div>
-                                        <div className="select-container">
-                                          <div className="select-dropdown">
-                                            <button
-                                              type="button"
-                                              id="select_69724aa54422f_btn"
-                                              className="mb2-pb-select-btn rounded-1 d-inline-flex align-items-center"
-                                              tabIndex="-1"
-                                              onClick={() =>
-                                                setIsSelectOpen(!isSelectOpen)
-                                              }
-                                            >
-                                              <span className="select-btn-text">
-                                                {selectedLanguage}
-                                              </span>
-                                              <span
-                                                className="select-btn-arrow mb2ml-auto"
-                                                aria-hidden="true"
-                                              ></span>
-                                            </button>
-                                            <div
-                                              id="select_69724aa54422f_items"
-                                              className={`select-items-container ${isSelectOpen ? "active" : ""}`}
-                                              data-id="select_69724aa54422f"
-                                              tabIndex="-1"
-                                            >
-                                              <ul>
-                                                {languages.map((lang) => (
-                                                  <li
-                                                    key={lang}
-                                                    className="mb2-pb-select_item position-relative d-flex align-items-center"
-                                                    data-link="#"
-                                                    tabIndex="-1"
-                                                    onClick={() => {
-                                                      setSelectedLanguage(lang);
-                                                      setIsSelectOpen(false);
-                                                    }}
-                                                  >
-                                                    <div className="select-item-inner lhsmall d-inline-flex align-items-center">
-                                                      <span className="select-text">
-                                                        {lang}
-                                                      </span>
-                                                    </div>
-                                                  </li>
-                                                ))}
-                                              </ul>
-                                            </div>
-                                          </div>
-                                          <div className="select-button">
+                                        </p>
+                                        <p className="hero-tagline">Học cùng nhau nhé</p>
+                                          <div className="hero-cta-wrap">
                                             <Link
                                               to="/courses"
-                                              className="mb2-pb-btn lhsmall rounded-1 btnborder1 fwglobal typeprimary"
+                                              className="mb2-pb-btn lhsmall rounded-1 btnborder1 fwglobal typeprimary hero-cta-btn"
                                               style={{
                                                 "--mb2-pb-btn-color":
                                                   "rgb(255, 178, 0)",
@@ -323,7 +278,6 @@ const MainContent = () => {
                                               Xem Kiến thức
                                             </Link>
                                           </div>
-                                        </div>
                                       </div>
 
                                       {/* Feature List */}
@@ -407,8 +361,8 @@ const MainContent = () => {
                                 >
                                   <img
                                     className="hero-img lazy"
-                                    src="https://lmsstyle.com/theme/new-learning/theme/image.php/mb2nl/theme/1768588523/lazy_placeholder_big"
-                                    data-src={makdahome}
+                                    src={heroImage}
+                                    data-src={heroImage}
                                     alt=""
                                   />
                                 </div>
@@ -479,8 +433,8 @@ const MainContent = () => {
                                       >
                                         <img
                                           className="lazy"
-                                          src="https://lmsstyle.com/theme/new-learning/theme/image.php/mb2nl/theme/1768588523/lazy_placeholder"
-                                          data-src="https://lmsstyle.com/theme/new-learning/pluginfile.php/1/local_mb2builder/images/demo_logos.png"
+                                          src={philosophyImage}
+                                          data-src={philosophyImage}
                                           alt=""
                                         />
                                       </div>
@@ -626,8 +580,8 @@ const MainContent = () => {
                                                   <img
                                                     alt="Cloud playgrounds"
                                                     className="theme-boximg-img lazy"
-                                                    data-src="https://lmsstyle.com/theme/new-learning/pluginfile.php/1/local_mb2builder/images/cloud-playgrounds.jpg"
-                                                    src="https://lmsstyle.com/theme/new-learning/theme/image.php/mb2nl/theme/1768588523/lazy_placeholder"
+                                                    data-src={quizImage}
+                                                    src={quizImage}
                                                     style={{
                                                       maxWidth: "800px",
                                                     }}
@@ -679,7 +633,7 @@ const MainContent = () => {
                                               <div className="theme-boximg-color" />
                                               <div
                                                 className="theme-boximg-imgel lazy"
-                                                data-bg="../../pluginfile.php/1/local_mb2builder/images/cloud-playgrounds.jpg"
+                                                data-bg={quizImage}
                                               >
                                                 <div
                                                   className="gradient-el gradient-left"
@@ -710,8 +664,8 @@ const MainContent = () => {
                                                   <img
                                                     alt="Professional certificates"
                                                     className="theme-boximg-img lazy"
-                                                    data-src="https://lmsstyle.com/theme/new-learning/pluginfile.php/1/local_mb2builder/images/professional-certificates.jpg"
-                                                    src="https://lmsstyle.com/theme/new-learning/theme/image.php/mb2nl/theme/1768588523/lazy_placeholder"
+                                                    data-src={flashcardImage}
+                                                    src={flashcardImage}
                                                     style={{
                                                       maxWidth: "800px",
                                                     }}
@@ -762,7 +716,7 @@ const MainContent = () => {
                                               <div className="theme-boximg-color" />
                                               <div
                                                 className="theme-boximg-imgel lazy"
-                                                data-bg="../../pluginfile.php/1/local_mb2builder/images/professional-certificates.jpg"
+                                                data-bg={flashcardImage}
                                               >
                                                 <div
                                                   className="gradient-el gradient-left"
@@ -797,8 +751,8 @@ const MainContent = () => {
                                                   <img
                                                     alt="Learn with experts"
                                                     className="theme-boximg-img lazy"
-                                                    data-src="https://lmsstyle.com/theme/new-learning/pluginfile.php/1/local_mb2builder/images/learn-with-experts.jpg"
-                                                    src="https://lmsstyle.com/theme/new-learning/theme/image.php/mb2nl/theme/1768588523/lazy_placeholder"
+                                                    data-src={thinkingImage}
+                                                    src={thinkingImage}
                                                     style={{
                                                       maxWidth: "800px",
                                                     }}
@@ -852,7 +806,7 @@ const MainContent = () => {
                                               <div className="theme-boximg-color" />
                                               <div
                                                 className="theme-boximg-imgel lazy"
-                                                data-bg="../../pluginfile.php/1/local_mb2builder/images/learn-with-experts.jpg"
+                                                data-bg={thinkingImage}
                                               >
                                                 <div
                                                   className="gradient-el gradient-left"
@@ -916,7 +870,7 @@ const MainContent = () => {
                                             "--mb-pb-ba_tcolor":
                                               "rgb(                                                  36,                                                  32,                                                  39                                                )",
                                             backgroundImage:
-                                              'url("https://lmsstyle.com/theme/new-learning/theme/image.php/mb2nl/local_mb2builder/1722369476/sample-data/2024/07/bg_shape_yellow")',
+                                              `url("${philosophyImage}")`,
                                             marginBottom: "30px",
                                             minHeight: "477px",
                                           }}
@@ -982,27 +936,6 @@ const MainContent = () => {
                                               </Link>
                                             </div>
                                           </div>
-                                          <div
-                                            aria-hidden="true"
-                                            className="ba_img d-flex position-absolute w-100 h-100"
-                                          >
-                                            <div className="ba_img2 d-flex position-relative w-100">
-                                              <div
-                                                className="ba_img3 position-absolute"
-                                                style={{
-                                                  "--mb2-pb-ba_imgmt": "0px",
-                                                  width: "560px",
-                                                }}
-                                              >
-                                                <img
-                                                  alt="Programming certifications to improve your job and career prospects"
-                                                  className="ba_img_img lazy"
-                                                  data-src={thuHa}
-                                                  src="https://lmsstyle.com/theme/new-learning/theme/image.php/mb2nl/theme/1768588523/lazy_placeholder_big"
-                                                />
-                                              </div>
-                                            </div>
-                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -1017,7 +950,7 @@ const MainContent = () => {
 
                     {/* Page Date */}
                     <span className="mb2-pb-pagedate sr-only">
-                      Last modified: Friday, 23 May 2025, 12:58 AM
+                      Group2-AI1901 - Triết học và đời sống
                     </span>
 
                     {/* Course Navigation */}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 // Lazy Load Images
 export const useLazyLoad = () => {
@@ -67,7 +67,7 @@ export const useScrollReveal = () => {
 export const useStickyHeader = () => {
   useEffect(() => {
     const header = document.getElementById("main-header");
-    let lastScroll = 0;
+    if (!header) return;
 
     const handleScroll = () => {
       const currentScroll = window.pageYOffset;
@@ -78,7 +78,6 @@ export const useStickyHeader = () => {
         header.classList.remove("sticky");
       }
 
-      lastScroll = currentScroll;
     };
 
     window.addEventListener("scroll", handleScroll);
