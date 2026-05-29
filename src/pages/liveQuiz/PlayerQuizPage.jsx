@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   getLivePlayer,
@@ -28,6 +28,8 @@ function PlayerQuizPage() {
   const [player, setPlayer] = useState(null);
   const [players, setPlayers] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [questionStartedAt, setQuestionStartedAt] = useState(Date.now());
+  const [nowTick, setNowTick] = useState(Date.now());
   const [joinName, setJoinName] = useState("");
   const [error, setError] = useState("");
   const [extraSeconds, setExtraSeconds] = useState(0);
@@ -42,6 +44,9 @@ function PlayerQuizPage() {
   const currentQuestion = orderedQuestions[currentIndex];
   const answers = player?.answers || {};
   const selectedAnswer = currentQuestion ? answers[currentQuestion.id] : undefined;
+  const hasAnsweredCurrent = selectedAnswer !== undefined;
+  const isCurrentCorrect =
+    hasAnsweredCurrent && selectedAnswer === currentQuestion?.correctAnswer;
 
   useEffect(() => {
     let isMounted = true;
@@ -83,32 +88,61 @@ function PlayerQuizPage() {
     };
   }, [normalizedRoomCode, playerToken]);
 
-  const remainingSeconds = useMemo(() => {
-    if (!room?.started_at || room.status !== "playing") {
-      return room?.config?.totalSeconds || 0;
-    }
+  useEffect(() => {
+    if (room?.status !== "playing") return;
+    setExtraSeconds(0);
+    setQuestionStartedAt(Date.now());
+    setNowTick(Date.now());
+  }, [room?.status]);
 
-    const elapsed = Math.floor(
-      (Date.now() - new Date(room.started_at).getTime()) / 1000,
-    );
-    return Math.max((room.config?.totalSeconds || 0) + extraSeconds - elapsed, 0);
-  }, [extraSeconds, room]);
+  const perQuestionSeconds = room?.config?.perQuestionSeconds || 30;
+  const remainingSeconds = useMemo(() => {
+    if (room?.status !== "playing") return perQuestionSeconds;
+    const elapsed = Math.floor((nowTick - questionStartedAt) / 1000);
+    return Math.max(perQuestionSeconds + extraSeconds - elapsed, 0);
+  }, [extraSeconds, nowTick, perQuestionSeconds, questionStartedAt, room?.status]);
+
+  const handleSubmit = useCallback(async () => {
+    if (!player || player.status === "submitted") return;
+    const updatedPlayer = await updateLivePlayer(player.id, {
+      status: "submitted",
+      submitted_at: new Date().toISOString(),
+    });
+    setPlayer(updatedPlayer);
+  }, [player]);
 
   useEffect(() => {
     if (room?.status !== "playing" || !player || player.status === "submitted") return;
 
     const timer = window.setInterval(() => {
-      const elapsed = Math.floor(
-        (Date.now() - new Date(room.started_at).getTime()) / 1000,
-      );
-      const left = Math.max((room.config?.totalSeconds || 0) + extraSeconds - elapsed, 0);
-      if (left <= 0) {
-        handleSubmit();
-      }
+      setNowTick(Date.now());
     }, 1000);
 
     return () => window.clearInterval(timer);
   });
+
+  useEffect(() => {
+    if (room?.status !== "playing" || player?.status === "submitted") return;
+    if (remainingSeconds > 0) return;
+
+    if (currentIndex >= orderedQuestions.length - 1) {
+      handleSubmit();
+      return;
+    }
+
+    setHiddenOptions([]);
+    setExtraSeconds(0);
+    setQuestionStartedAt(Date.now());
+    setNowTick(Date.now());
+    setCurrentIndex((index) => Math.min(orderedQuestions.length - 1, index + 1));
+  }, [
+    currentIndex,
+    handleSubmit,
+    orderedQuestions.length,
+    player?.status,
+    remainingSeconds,
+    room?.status,
+  ]);
 
   const handleJoinInline = async (event) => {
     event.preventDefault();
@@ -212,21 +246,15 @@ function PlayerQuizPage() {
         .filter((item) => answers[item.question.id] === undefined);
       if (unanswered.length) {
         const jump = unanswered[Math.floor(Math.random() * unanswered.length)];
+        setExtraSeconds(0);
+        setQuestionStartedAt(Date.now());
+        setNowTick(Date.now());
         setCurrentIndex(jump.index);
       }
     }
 
     const updatedPlayer = await updateLivePlayer(player.id, {
       active_buff: { ...buff, used: true },
-    });
-    setPlayer(updatedPlayer);
-  };
-
-  const handleSubmit = async () => {
-    if (!player || player.status === "submitted") return;
-    const updatedPlayer = await updateLivePlayer(player.id, {
-      status: "submitted",
-      submitted_at: new Date().toISOString(),
     });
     setPlayer(updatedPlayer);
   };
@@ -317,7 +345,7 @@ function PlayerQuizPage() {
             <p className="live-eyebrow">Kết quả</p>
             <h1>Hạng #{myRank || "-"}</h1>
             <p>
-              {player.name}: <strong>{player.score || 0} điểm</strong> ·{" "}
+            {player.name}: <strong>{player.score || 0} điểm</strong> ·{" "}
               {player.correct_count || 0}/{player.total_questions || 0} câu đúng
             </p>
             <div className="live-leaderboard">
@@ -369,6 +397,26 @@ function PlayerQuizPage() {
             <strong>{player.score || 0} điểm</strong>
           </div>
           <h2>{currentQuestion?.question}</h2>
+          {hasAnsweredCurrent && (
+            <div
+              className={`live-answer-feedback ${
+                isCurrentCorrect ? "correct" : "wrong"
+              }`}
+            >
+              <i
+                className={`bi ${
+                  isCurrentCorrect ? "bi-check-circle-fill" : "bi-x-circle-fill"
+                }`}
+              ></i>
+              <span>
+                {isCurrentCorrect ? "Chính xác!" : "Chưa đúng."} Đáp án đúng là{" "}
+                <strong>
+                  {String.fromCharCode(65 + currentQuestion.correctAnswer)}.{" "}
+                  {currentQuestion.options[currentQuestion.correctAnswer]}
+                </strong>
+              </span>
+            </div>
+          )}
           <div className="live-answer-grid">
             {currentQuestion?.options.map((option, index) => (
               <button
@@ -376,6 +424,16 @@ function PlayerQuizPage() {
                 type="button"
                 className={`live-answer-btn ${
                   selectedAnswer === index ? "selected" : ""
+                } ${
+                  hasAnsweredCurrent && index === currentQuestion.correctAnswer
+                    ? "correct"
+                    : ""
+                } ${
+                  hasAnsweredCurrent &&
+                  selectedAnswer === index &&
+                  index !== currentQuestion.correctAnswer
+                    ? "wrong"
+                    : ""
                 }`}
                 disabled={hiddenOptions.includes(index)}
                 onClick={() => handleAnswer(index)}
@@ -392,6 +450,9 @@ function PlayerQuizPage() {
               disabled={currentIndex === 0}
               onClick={() => {
                 setHiddenOptions([]);
+                setExtraSeconds(0);
+                setQuestionStartedAt(Date.now());
+                setNowTick(Date.now());
                 setCurrentIndex((index) => Math.max(0, index - 1));
               }}
             >
@@ -402,6 +463,9 @@ function PlayerQuizPage() {
               className="live-primary-btn"
               onClick={() => {
                 setHiddenOptions([]);
+                setExtraSeconds(0);
+                setQuestionStartedAt(Date.now());
+                setNowTick(Date.now());
                 setCurrentIndex((index) =>
                   Math.min(orderedQuestions.length - 1, index + 1),
                 );

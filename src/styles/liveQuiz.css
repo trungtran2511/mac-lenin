@@ -390,6 +390,16 @@
   box-shadow: 0 12px 28px rgba(0, 125, 132, 0.14);
 }
 
+.live-answer-btn.correct {
+  border-color: rgba(0, 125, 132, 0.62);
+  background: rgba(0, 125, 132, 0.1);
+}
+
+.live-answer-btn.wrong {
+  border-color: rgba(216, 92, 74, 0.62);
+  background: rgba(216, 92, 74, 0.1);
+}
+
 .live-answer-btn:disabled {
   opacity: 0.5;
 }
@@ -427,6 +437,32 @@
 
 .live-buff-toast strong {
   display: block;
+}
+
+.live-answer-feedback {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: -4px 0 18px;
+  border-radius: 15px;
+  padding: 13px 15px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.live-answer-feedback.correct {
+  background: rgba(0, 125, 132, 0.1);
+  color: #00646a;
+}
+
+.live-answer-feedback.wrong {
+  background: rgba(216, 92, 74, 0.12);
+  color: #a13e30;
+}
+
+.live-answer-feedback i {
+  margin-top: 3px;
+  font-size: 1.15rem;
 }
 
 @media (max-width: 900px) {

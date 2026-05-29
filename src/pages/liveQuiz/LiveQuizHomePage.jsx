@@ -27,6 +27,7 @@ function LiveQuizHomePage() {
     hostPassword: "",
     roomName: "Đấu trường Triết học",
     numberOfQuestions: "10",
+    perQuestionSeconds: "30",
     chapter: "random",
     difficulty: "random",
     buffsEnabled: true,
@@ -70,6 +71,7 @@ function LiveQuizHomePage() {
           numberOfQuestions: Number(createForm.numberOfQuestions),
           chapter: createForm.chapter,
           difficulty: createForm.difficulty,
+          perQuestionSeconds: Number(createForm.perQuestionSeconds),
           totalSeconds: liveQuizTimeLimits[Number(createForm.numberOfQuestions)] || 300,
         },
         buffs_enabled: createForm.buffsEnabled,
@@ -214,6 +216,24 @@ function LiveQuizHomePage() {
                   <option value="20">20 câu / 10 phút</option>
                   <option value="30">30 câu / 15 phút</option>
                   <option value="50">50 câu / 30 phút</option>
+                </select>
+              </label>
+              <label>
+                Thời gian mỗi câu
+                <select
+                  value={createForm.perQuestionSeconds}
+                  onChange={(event) =>
+                    setCreateForm({
+                      ...createForm,
+                      perQuestionSeconds: event.target.value,
+                    })
+                  }
+                >
+                  <option value="15">15 giây/câu</option>
+                  <option value="20">20 giây/câu</option>
+                  <option value="30">30 giây/câu</option>
+                  <option value="45">45 giây/câu</option>
+                  <option value="60">60 giây/câu</option>
                 </select>
               </label>
               <label>
