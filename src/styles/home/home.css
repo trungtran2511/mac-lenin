@@ -8405,7 +8405,16 @@ body:has(.group2-home) {
 }
 
 .group2-home .hero-cta-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 0;
+}
+
+.group2-home .live-quiz-home-cta {
+  background: var(--g2-teal) !important;
+  color: #fff !important;
+  border-color: var(--g2-teal) !important;
 }
 
 .group2-home .mb2-pb-select-btn,
@@ -8450,7 +8459,7 @@ body:has(.group2-home) {
 
 .group2-home .theme-boxes {
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 22px;
 }
 
@@ -8516,6 +8525,10 @@ body:has(.group2-home) {
 
 .group2-home .theme-boxes .theme-box:nth-child(3) .box-readmore .mb2-pb-btn {
   background: var(--g2-coral) !important;
+}
+
+.group2-home .theme-boxes .theme-box:nth-child(4) .box-readmore .mb2-pb-btn {
+  background: var(--g2-teal) !important;
 }
 
 .group2-home .mb2-pb-ba {
@@ -8587,6 +8600,12 @@ body:has(.group2-home) {
 
   .group2-home .mb2-pb-ba_inner {
     padding: 34px !important;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1240px) {
+  .group2-home .theme-boxes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

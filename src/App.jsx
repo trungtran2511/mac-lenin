@@ -7,6 +7,10 @@ import QuizResultsPage from "./pages/QuizResultsPage";
 import FlipCardPage from "./pages/FlipCardPage";
 import TuviPage from "./pages/Tuvipage";
 import Courses from "./pages/Courses";
+import PhilosophyProfilePage from "./pages/PhilosophyProfilePage";
+import LiveQuizHomePage from "./pages/liveQuiz/LiveQuizHomePage";
+import HostRoomPage from "./pages/liveQuiz/HostRoomPage";
+import PlayerQuizPage from "./pages/liveQuiz/PlayerQuizPage";
 
 function App() {
   return (
@@ -29,6 +33,11 @@ function App() {
         <Route path="/tuvi" element={<TuviPage />} />
 
         <Route path="/courses" element={<Courses />} />
+
+        <Route path="/philosophy-profile" element={<PhilosophyProfilePage />} />
+        <Route path="/live-quiz" element={<LiveQuizHomePage />} />
+        <Route path="/live-quiz/host/:roomCode" element={<HostRoomPage />} />
+        <Route path="/live-quiz/play/:roomCode" element={<PlayerQuizPage />} />
 
         {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>

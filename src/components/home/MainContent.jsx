@@ -277,6 +277,12 @@ const MainContent = () => {
                                             >
                                               Xem Kiến thức
                                             </Link>
+                                            <Link
+                                              to="/live-quiz"
+                                              className="mb2-pb-btn lhsmall rounded-1 btnborder1 fwglobal typeprimary hero-cta-btn live-quiz-home-cta"
+                                            >
+                                              Live Quiz
+                                            </Link>
                                           </div>
                                       </div>
 
@@ -813,6 +819,92 @@ const MainContent = () => {
                                                   style={{
                                                     backgroundImage:
                                                       "linear-gradient(                                                          to right,                                                          rgba(                                                            255,                                                            255,                                                            255,                                                            0                                                          ),                                                          rgba(                                                            255,                                                            178,                                                            0,                                                            0.05                                                          )                                                        )",
+                                                  }}
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="theme-box el_onmobile1">
+                                            <div
+                                              className="theme-boximg position-relative"
+                                              style={{
+                                                "--mb2-pb-bxbgcolor":
+                                                  "rgba(216, 92, 74, 0.05)",
+                                                "--mb2-pb-bxbocolor":
+                                                  "rgb(216, 92, 74)",
+                                                "--mb2-pb-bxborder": "2px",
+                                              }}
+                                            >
+                                              <div className="box-allcontent">
+                                                <div className="box-image">
+                                                  <img
+                                                    alt="Philosophy profile"
+                                                    className="theme-boximg-img lazy"
+                                                    data-src={philosophyImage}
+                                                    src={philosophyImage}
+                                                    style={{
+                                                      maxWidth: "800px",
+                                                    }}
+                                                  />
+                                                </div>
+                                                <div className="vtable-wrapp">
+                                                  <div className="vtable">
+                                                    <div className="vtable-cell">
+                                                      <div className="box-content">
+                                                        <h4
+                                                          className="box-title pbtsize-1 fwglobal lhglobal"
+                                                          style={{
+                                                            fontSize: "1.4rem",
+                                                          }}
+                                                        >
+                                                          <span className="box-title-text">
+                                                            Triết Profile
+                                                          </span>
+                                                        </h4>
+                                                        <div className="box-desc">
+                                                          Trả lời 12 tình huống
+                                                          vui để xem bạn nghiêng
+                                                          về duy vật biện chứng,
+                                                          duy tâm, biện chứng
+                                                          hay thực tiễn luận.
+                                                        </div>
+                                                        <span className="theme-boximg-color" />
+                                                        <div className="box-readmore">
+                                                          <Link
+                                                            className="boxlink mb2-pb-btn typeprimary sizenormal rounded-1 btnborder0 fwglobal"
+                                                            to="/philosophy-profile"
+                                                            style={{
+                                                              "--mb2-pb-btn-bgcolor":
+                                                                "rgb(216, 92, 74)",
+                                                              "--mb2-pb-btn-bghcolor":
+                                                                "rgb(190, 73, 58)",
+                                                            }}
+                                                          >
+                                                            Check vibe
+                                                          </Link>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="theme-boximg-color" />
+                                              <div
+                                                className="theme-boximg-imgel lazy"
+                                                data-bg={philosophyImage}
+                                              >
+                                                <div
+                                                  className="gradient-el gradient-left"
+                                                  style={{
+                                                    backgroundImage:
+                                                      "linear-gradient(to right, rgba(216, 92, 74, 0.05), rgba(255, 255, 255, 0))",
+                                                  }}
+                                                />
+                                                <div
+                                                  className="gradient-el gradient-right"
+                                                  style={{
+                                                    backgroundImage:
+                                                      "linear-gradient(to right, rgba(255, 255, 255, 0), rgba(216, 92, 74, 0.05))",
                                                   }}
                                                 />
                                               </div>
