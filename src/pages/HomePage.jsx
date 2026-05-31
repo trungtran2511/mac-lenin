@@ -1,6 +1,7 @@
 import CinematicHero from "../components/home/CinematicHero";
 import MainContent from "../components/home/MainContent";
 import Footer from "../components/home/Footer";
+import DraggablePyramidPet from "../components/home/DraggablePyramidPet";
 
 function HomePage() {
   return (
@@ -13,6 +14,9 @@ function HomePage() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Interactive 3D Draggable Pyramid Pet */}
+      <DraggablePyramidPet />
 
       <a
         href="#page"

@@ -842,7 +842,7 @@ Lá số là công cụ tham khảo, không thay thế lựa chọn cá nhân. K
 
               {isAnalyzing && (
                 <div className="tuvi-reading-loading">
-                  <div
+                                    <div
                     className="spinner-border"
                     role="status"
                   >

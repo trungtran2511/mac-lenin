@@ -1,0 +1,81 @@
+/* ===== Draggable Floating Pyramid Pet (3x Size & Horizontal Spin) ===== */
+
+.pyramid-pet-container {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
+  user-select: none;
+  touch-action: none;
+  width: 270px;
+  height: 270px;
+}
+
+.pyramid-pet-container:active {
+  cursor: grabbing !important;
+}
+
+.pyramid-pet-container.dragging {
+  transform: scale(1.1) rotate(3deg);
+  filter: drop-shadow(0 20px 40px rgba(139, 90, 213, 0.6));
+}
+
+/* Tooltip/bubble above the pet */
+.pyramid-pet-bubble {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  background: rgba(10, 10, 10, 0.9);
+  color: #2BDEAC;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-family: 'Inter', sans-serif;
+  z-index: 100000;
+}
+
+.pyramid-pet-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: rgba(10, 10, 10, 0.9);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pyramid-pet-container:hover .pyramid-pet-bubble {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* Draggable Pet styling modifications for the loader (3x dimensions) */
+.pyramid-pet-container .pyramid-loader {
+  width: 270px;
+  height: 270px;
+  transform: rotateX(-20deg);
+}
+
+.pyramid-pet-container .pyramid-loader .pyramid-wrapper {
+  animation: pyramid-spin 4s linear infinite;
+}
+
+.pyramid-pet-container .pyramid-loader .pyramid-wrapper .side {
+  width: 135px;
+  height: 135px;
+}
+
+.pyramid-pet-container .pyramid-loader .pyramid-wrapper .shadow {
+  width: 114px;
+  height: 114px;
+  transform: rotateX(90deg) translateZ(-75px);
+}

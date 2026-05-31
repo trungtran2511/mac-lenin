@@ -175,3 +175,166 @@
     padding: 0 1.25rem;
   }
 }
+
+/* ===== Isometric Social Contact Card ===== */
+.contact-card-container {
+  max-width: fit-content;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  gap: 1rem;
+  backdrop-filter: blur(15px);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05),
+    inset 0 0 5px rgba(255, 255, 255, 0.1), 0 5px 5px rgba(0, 0, 0, 0.3);
+  transition: 0.5s;
+}
+
+.contact-card-container:hover {
+  animation: ease-out 5s;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.contact-card-list {
+  padding: 0.5rem 0;
+  display: flex;
+  list-style: none;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0;
+}
+
+.contact-iso-pro {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+}
+
+.contact-svg {
+  transition: all 0.3s;
+  padding: 0.75rem;
+  height: 48px;
+  width: 48px;
+  border-radius: 100%;
+  fill: currentColor;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 0 5px rgba(255, 255, 255, 0.2), 0 5px 5px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.contact-text {
+  opacity: 0;
+  border-radius: 6px;
+  padding: 4px 8px;
+  transition: all 0.3s;
+  background-color: rgba(10, 10, 10, 0.95);
+  position: absolute;
+  z-index: 9999;
+  left: 50%;
+  top: -38px;
+  transform: translateX(-50%) translateY(5px);
+  white-space: nowrap;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.contact-iso-pro:hover a > .contact-svg {
+  transform: translate(10px, -10px);
+  border-radius: 100%;
+}
+
+.contact-iso-pro:hover .contact-text {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) skew(-3deg);
+}
+
+.contact-iso-pro span {
+  opacity: 0;
+  position: absolute;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 0 5px rgba(255, 255, 255, 0.2), 0 5px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  transition: all 0.3s;
+  height: 48px;
+  width: 48px;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.contact-iso-pro:hover span {
+  opacity: 1;
+}
+
+.contact-iso-pro:hover span:nth-child(1) {
+  opacity: 0.15;
+}
+
+.contact-iso-pro:hover span:nth-child(2) {
+  opacity: 0.3;
+  transform: translate(3px, -3px);
+}
+
+.contact-iso-pro:hover span:nth-child(3) {
+  opacity: 0.45;
+  transform: translate(6px, -6px);
+}
+
+/* --- Brand Specific Colors --- */
+.contact-iso-pro.facebook span {
+  color: #1877f2;
+  border: 1px solid #1877f2;
+}
+.contact-iso-pro.facebook .contact-svg {
+  color: #1877f2;
+}
+.contact-iso-pro.facebook .contact-text {
+  color: #1877f2;
+}
+.contact-iso-pro.facebook:hover a > .contact-svg {
+  background: #1877f2;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(24, 119, 242, 0.4);
+}
+
+.contact-iso-pro.twitter span {
+  color: #1da1f2;
+  border: 1px solid #1da1f2;
+}
+.contact-iso-pro.twitter .contact-svg {
+  color: #1da1f2;
+}
+.contact-iso-pro.twitter .contact-text {
+  color: #1da1f2;
+}
+.contact-iso-pro.twitter:hover a > .contact-svg {
+  background: #1da1f2;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(29, 161, 242, 0.4);
+}
+
+.contact-iso-pro.instagram span {
+  color: #e1306c;
+  border: 1px solid #e1306c;
+}
+.contact-iso-pro.instagram .contact-svg {
+  color: #e1306c;
+}
+.contact-iso-pro.instagram .contact-text {
+  color: #e1306c;
+}
+.contact-iso-pro.instagram:hover a > .contact-svg {
+  background: #e1306c;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(225, 48, 108, 0.4);
+}
