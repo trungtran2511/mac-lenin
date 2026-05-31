@@ -92,8 +92,10 @@ export function subscribeLiveRoom(roomCode, handlers) {
         filter: `room_code=eq.${roomCode}`,
       },
       handlers.onRoomChange,
-    )
-    .on(
+    );
+
+  if (handlers.onPlayersChange) {
+    channel.on(
       "postgres_changes",
       {
         event: "*",
@@ -102,10 +104,14 @@ export function subscribeLiveRoom(roomCode, handlers) {
         filter: `room_code=eq.${roomCode}`,
       },
       handlers.onPlayersChange,
-    )
-    .subscribe();
+    );
+  }
+
+  channel.subscribe();
 
   return () => {
     supabase.removeChannel(channel);
   };
 }
+
+

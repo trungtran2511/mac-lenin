@@ -71,9 +71,9 @@ export function fisherYatesShuffle(items, seedValue = Math.random()) {
     typeof seedValue === "number"
       ? seedValue
       : Array.from(String(seedValue)).reduce(
-          (sum, char) => sum + char.charCodeAt(0),
-          0,
-        );
+        (sum, char) => sum + char.charCodeAt(0),
+        0,
+      );
 
   const random = () => {
     seed = (seed * 9301 + 49297) % 233280;

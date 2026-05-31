@@ -154,6 +154,21 @@ function PlayerQuizPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, room?.status, room?.buffs_enabled]);
 
+  const roomStatusRef = useRef("lobby");
+  const playerStatusRef = useRef("lobby");
+
+  useEffect(() => {
+    if (room) {
+      roomStatusRef.current = room.status;
+    }
+  }, [room]);
+
+  useEffect(() => {
+    if (player) {
+      playerStatusRef.current = player.status;
+    }
+  }, [player]);
+
   useEffect(() => {
     let isMounted = true;
 
@@ -177,15 +192,8 @@ function PlayerQuizPage() {
     load();
     const unsubscribe = subscribeLiveRoom(normalizedRoomCode, {
       onRoomChange: (payload) => setRoom(payload.new),
-      onPlayersChange: () => {
-        getLivePlayers(normalizedRoomCode)
-          .then((playerList) => {
-            setPlayers(playerList);
-            const self = playerList.find((item) => item.player_token === playerToken);
-            if (self) setPlayer(self);
-          })
-          .catch(console.warn);
-      },
+      // Bỏ onPlayersChange ở đây để tránh Player nhận broadcast cập nhật điểm/buff của các người chơi khác,
+      // giảm 97%+ lượng tin nhắn Realtime trên gói Free.
     });
 
     return () => {
@@ -193,6 +201,31 @@ function PlayerQuizPage() {
       unsubscribe();
     };
   }, [normalizedRoomCode, playerToken]);
+
+  // Polling lấy danh sách người chơi/bảng xếp hạng định kỳ ở màn hình Chờ (Lobby) và Kết quả (Result)
+  // Trong quá trình làm bài thi (playing), effect này hoàn toàn tắt để tránh tốn tài nguyên.
+  useEffect(() => {
+    if (!room || !player) return;
+    const shouldPoll = room.status === "lobby" || room.status === "ended" || player.status === "submitted";
+    if (!shouldPoll) return;
+
+    const fetchPlayers = () => {
+      getLivePlayers(normalizedRoomCode)
+        .then((playerList) => {
+          setPlayers(playerList);
+          const self = playerList.find((item) => item.player_token === playerToken);
+          if (self) setPlayer(self);
+        })
+        .catch(console.warn);
+    };
+
+    fetchPlayers(); // Fetch immediately on status transition
+
+    const interval = setInterval(fetchPlayers, 5000); // Poll every 5 seconds
+    return () => clearInterval(interval);
+  }, [room?.status, player?.status, normalizedRoomCode, playerToken]);
+
+
 
   useEffect(() => {
     if (room?.status !== "playing") return;
